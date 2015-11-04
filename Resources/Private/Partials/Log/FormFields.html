@@ -1,0 +1,205 @@
+<div class="form-group row no-margin-horizontal">
+	<label for="salutation" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.salutation" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11" id="salutation">
+		<label for="gender1" class="radio-inline">
+			<f:form.radio additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change', required: 'required'}"
+		                  id="gender1"
+		                  property="salutation"
+		                  value="Mr" /> Mr.
+		</label>
+		<label for="gender2" class="radio-inline">
+			<f:form.radio additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change', required: 'required'}"
+		                  id="gender2"
+		                  property="salutation"
+		                  value="Mrs" /> Mrs.
+		</label>
+		<label for="gender3" class="radio-inline">
+			<f:form.radio additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change', required: 'required'}"
+		                  id="gender3"
+		                  property="salutation"
+		                  value="Ms" /> Ms.
+		</label>
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="firstName" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.firstName" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="firstName"
+		                  property="firstName" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="lastName" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.lastName" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="lastName"
+		                  property="lastName" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="subject" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.subject" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="subject"
+		                  property="subject" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="message" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.message" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+				<f:form.textarea additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change', required: 'required'}"
+				                 rows="5"
+				                 cols="20"
+				                 class="form-control"
+				                 id="message"
+				                 property="message" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="company" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.company" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="company"
+		                  property="company" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="jobTitle" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.jobTitle" extensionName="ecom_config_code_generator" /></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="jobTitle"
+		                  property="jobTitle" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="address" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.address" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="address"
+		                  property="address" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="postalCode" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.zip" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="postalCode"
+		                  property="postalCode" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="city" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.city" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="city"
+		                  property="city" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="country" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.country" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<select data-parsley-required-message="{f:translate(id: 'forms.parsley.required', extensionName: 'ecom_config_code_generator')}"
+		        data-parsley-trigger="change"
+		        required="required"
+		        name="tx_ecomskugenerator_generator[newLog][country]"
+		        class="form-control"
+		        id="country">
+			<option value="" selected="selected" class="empty-option"><f:translate id="forms.select.empty" extensionName="ecom_config_code_generator" /></option>
+			<f:for each="{countryList}" as="country">
+				<option value="{country.uid}" data-cn-iso="{country.isoCodeA3}">{country.title}</option>
+			</f:for>
+		</select>
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="state" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.state" extensionName="ecom_config_code_generator" /></label>
+	<div class="col-sm-10 col-md-11">
+		<select name="tx_ecomskugenerator_generator[newLog][state]"
+		        class="form-control"
+		        id="state">
+			<option value="" selected="selected" class="empty-option"><f:translate id="forms.select.empty" extensionName="ecom_config_code_generator" /></option>
+			<f:for each="{stateList}" as="state">
+				<option value="{state.uid}" data-country="{state.country.isoCodeA3}">{state.title}</option>
+			</f:for>
+		</select>
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="phone" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.phone" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="phone"
+		                  property="phone" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="fax" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.fax" extensionName="ecom_config_code_generator" /></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                   class="form-control"
+		                   id="fax"
+		                   property="fax" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="email" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.email" extensionName="ecom_config_code_generator" /><span class="mandatory">*</span></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{data-parsley-required-message: '{f:translate(id: \'forms.parsley.required\', extensionName: \'ecom_config_code_generator\')}', data-parsley-trigger: 'change', data-parsley-error-message: '{f:translate(id: \'forms.parsley.invalidEmail\', extensionName: \'ecom_config_code_generator\')}'}"
+		                  required="required"
+		                  placeholder="{f:translate(id: 'forms.input.placeholder', extensionName: 'ecom_config_code_generator')}"
+		                  class="form-control"
+		                  id="email"
+		                  property="email"
+		                  type="email" />
+	</div>
+</div>
+<div class="form-group row no-margin-horizontal">
+	<label for="quantity" class="col-sm-2 col-md-1 control-label"><f:translate id="forms.log.field.quantity" extensionName="ecom_config_code_generator" /></label>
+	<div class="col-sm-10 col-md-11">
+		<f:form.textfield additionalAttributes="{min: '1', max: '1000000', pattern: '\d+', title: 'Digits only', data-parsley-type: 'number', data-parsley-min: '1'}"
+		                  class="form-control"
+		                  id="quantity"
+		                  property="quantity"
+		                  type="text"
+		                  value="1" />
+	</div>
+</div>
+<div class="checkbox row no-margin-horizontal">
+	<label for="privacyPolicy">
+		<input data-parsley-id="16"
+		       data-parsley-required-message="{f:translate(id: 'forms.parsley.confirmPrivacyPolicy', extensionName: 'ecom_config_code_generator')}"
+		       required="required"
+		       id="privacyPolicy"
+		       name="privacyPolicy"
+		       value="1"
+		       type="checkbox">
+		<f:translate id="forms.privacyPolicy0" extensionName="ecom_config_code_generator" default="I herewith declare my express agreement to the " /><f:link.typolink parameter="15 _blank"><f:translate id="forms.privacyPolicy1" extensionName="ecom_config_code_generator" default="data protection provisions" /></f:link.typolink><f:translate id="forms.privacyPolicy2" extensionName="ecom_config_code_generator" default=" of ecom instruments GmbH." />
+	</label>
+</div>
+<p><small><f:translate id="forms.mandatoryHint" extensionName="ecom_config_code_generator" arguments="{0: 'mandatory'}" /></small></p>

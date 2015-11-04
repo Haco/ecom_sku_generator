@@ -1,0 +1,43 @@
+plugin.tx_ecomconfigcodegenerator {
+	view {
+		# cat=plugin.tx_ecomconfigcodegenerator/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:ecom_config_code_generator/Resources/Private/Templates/
+		# cat=plugin.tx_ecomconfigcodegenerator/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:ecom_config_code_generator/Resources/Private/Partials/
+		# cat=plugin.tx_ecomconfigcodegenerator/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:ecom_config_code_generator/Resources/Private/Layouts/
+	}
+}
+
+plugin.tx_ecomskugenerator {
+	view {
+		# cat=plugin.tx_ecomskugenerator/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:ecom_sku_generator/Resources/Private/Templates/
+		# cat=plugin.tx_ecomskugenerator/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:ecom_sku_generator/Resources/Private/Partials/
+		# cat=plugin.tx_ecomskugenerator/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:ecom_sku_generator/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_ecomskugenerator//a; type=string; label=Default storage PID
+		storagePid =
+	}
+	settings {
+		# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=Webmaster E-Mail address
+		webmasterEmail = webmaster@ecom-ex.com
+		# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=FE user group to access price display
+		accessPricing = 0
+		mail {
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=No reply address
+			noReplyEmail = noreply@ecom-ex.com
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender address
+			senderEmail = sales@ecom-ex.com
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender name
+			senderName = ecom instruments GmbH
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail carbon copy receivers:Split by comma if multiple
+			carbonCopy = marketing@ecom-ex.com ecom Marketing
+			# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
+			confirmationMessage = 4821
+		}
+	}
+}

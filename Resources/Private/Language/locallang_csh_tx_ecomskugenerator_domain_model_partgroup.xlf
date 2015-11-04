@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-10-06T07:57:48Z" product-name="ecom_sku_generator">
+		<header/>
+		<body>
+			<trans-unit id="title.description">
+				<source>The partgroup title</source>
+			</trans-unit>
+			<trans-unit id="icon.description">
+				<source>Icon file, if any</source>
+			</trans-unit>
+			<trans-unit id="prompt.description">
+				<source>User prompt plus hints, if any</source>
+			</trans-unit>
+			<trans-unit id="settings.description">
+				<source>Global settings, i.e. visibility options, pricing options, multiple select availability ...</source>
+			</trans-unit>
+			<trans-unit id="parts.description">
+				<source>Parts belonging to the group</source>
+			</trans-unit>
+			<trans-unit id="dependent_note.description">
+				<source>Notes depending on divers parts selected</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

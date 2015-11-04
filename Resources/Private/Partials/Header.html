@@ -1,0 +1,33 @@
+<div class="ecom-generator-generator-head">
+	<div class="ecom-generator-config-header-instructions" id="ecom-generator-ajax-header-instructions">{value.instructions -> f:format.html()}</div>
+	<f:if condition="{pricingEnabled}">
+		<div class="generator-config-header-price-table">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<!--{f:translate(id: 'currency')}:--> {currencyActive.isoCode} [{currencyActive.symbol}] &nbsp; <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<f:for each="{currencies}" as="currency">
+						<f:if condition="{currency} == {currencyActive}">
+							<f:then><li class="active"><a class="disabled"><f:image src="{currency.flagSource}" style="margin-right: 0.2em;vertical-align: baseline" /> {currency.isoCode} ({currency.symbol})</a></li></f:then>
+							<f:else><li><f:link.action action="setCurrency" arguments="{currency: currency}" noCacheHash="1"><f:image src="{currency.flagSource}" style="margin-right: 0.2em;vertical-align: baseline" /> {currency.isoCode} ({currency.symbol})</f:link.action></li></f:else>
+						</f:if>
+					</f:for>
+				</ul>
+			</div>
+			<p>&nbsp;</p>
+			<table>
+				<thead>
+					<tr class="align-center"><td><f:translate id="label.basePrice" default="Base price" /></td><td><f:translate id="label.configPrice" default="Configuration price" /></td></tr>
+				</thead>
+				<tbody>
+					<tr class="align-center">
+						<td>{contentObject.basePriceFormatted}</td>
+						<td><span id="generator-config-header-config-price" class="js-eskuc-show-configuration-price">{contentObject.configurationPriceFormatted}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</f:if>
+	<div class="clearfix" style="clear: both;"></div>
+</div>

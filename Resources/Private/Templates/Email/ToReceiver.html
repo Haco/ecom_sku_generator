@@ -1,0 +1,42 @@
+<table style="font-family: Arial,'Helvetica Neue',Helvetica,sans-serif">
+	<tr>
+		<td>
+			Following data has been provided:<br /><br />
+			<table>
+				<tr><td><f:translate id="mail.field.salutation" default="Salutation" extensionName="ecom_config_code_generator" /> </td><td>{log.salutation}.</td></tr>
+				<tr><td><f:translate id="mail.field.first_name" default="First Name" extensionName="ecom_config_code_generator" /> </td><td>{log.firstName}</td></tr>
+				<tr><td><f:translate id="mail.field.last_name" default="Last Name" extensionName="ecom_config_code_generator" /> </td><td>{log.lastName}</td></tr>
+				<tr><td><f:translate id="mail.field.subject" default="Subject" extensionName="ecom_config_code_generator" /> </td><td>{log.subject}</td></tr>
+				<tr><td><f:translate id="mail.field.message" default="Your Message" extensionName="ecom_config_code_generator" /> </td><td>{log.message}</td></tr>
+				<tr><td><f:translate id="mail.field.company" default="Company" extensionName="ecom_config_code_generator" /> </td><td>{log.company}</td></tr>
+				<tr><td><f:translate id="mail.field.job_title" default="Job Title" extensionName="ecom_config_code_generator" /> </td><td>{log.jobTitle}</td></tr>
+				<tr><td><f:translate id="mail.field.address" default="Street Address" extensionName="ecom_config_code_generator" /> </td><td>{log.address}</td></tr>
+				<tr><td><f:translate id="mail.field.postal_code" default="Postal Code" extensionName="ecom_config_code_generator" /> </td><td>{log.postalCode}</td></tr>
+				<tr><td><f:translate id="mail.field.city" default="City" extensionName="ecom_config_code_generator" /> </td><td>{log.city}</td></tr>
+				<tr><td><f:translate id="mail.field.country" default="Country" extensionName="ecom_config_code_generator" /> </td><td>{log.country.title}</td></tr>
+				<tr><td><f:translate id="mail.field.state" default="State / Province" extensionName="ecom_config_code_generator" /> </td><td>{log.state.title}</td></tr>
+				<tr><td><f:translate id="mail.field.phone" default="Phone" extensionName="ecom_config_code_generator" /> </td><td>{log.phone}</td></tr>
+				<tr><td><f:translate id="mail.field.fax" default="Fax" extensionName="ecom_config_code_generator" /> </td><td>{log.fax}</td></tr>
+				<tr><td><f:translate id="mail.field.email" default="E-Mail" extensionName="ecom_config_code_generator" /> </td><td>{log.email}</td></tr>
+				<tr><td><f:translate id="mail.field.quantity" default="Quantity" extensionName="ecom_config_code_generator" /> </td><td>{log.quantity}</td></tr>
+				<tr><td><f:translate id="mail.field.pricing" default="Value" extensionName="ecom_config_code_generator" /> </td><td>{log.pricing}</td></tr>
+			</table>
+		</td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td><h2>Configuration</h2></td>
+	</tr>
+	<tr>
+		<td><h3>{configurationCode.blankCode}</h3></td>
+	</tr>
+	<tr>
+		<td>
+			<h4>{title}</h4>
+			{configurationCode.summaryTableMail -> f:format.html()}
+		</td>
+	</tr>
+</table>
+<p>&nbsp;</p>
+<f:render partial="Misc/MarketingInformation" arguments="{marketingInformation: marketingInformation}" />
+<p>&nbsp;</p>

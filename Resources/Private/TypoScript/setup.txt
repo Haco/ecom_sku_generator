@@ -1,0 +1,82 @@
+plugin.tx_ecomskugenerator {
+	view {
+		templateRootPaths {
+			10 = {$plugin.tx_ecomconfigcodegenerator.view.templateRootPath}
+			20 = {$plugin.tx_ecomskugenerator.view.templateRootPath}
+		}
+		partialRootPaths {
+			10 = {$plugin.tx_ecomconfigcodegenerator.view.partialRootPath}
+			20 = {$plugin.tx_ecomskugenerator.view.partialRootPath}
+		}
+		layoutRootPaths {
+			10 = {$plugin.tx_ecomconfigcodegenerator.view.layoutRootPath}
+			20 = {$plugin.tx_ecomskugenerator.view.layoutRootPath}
+		}
+	}
+	persistence {
+		storagePid = {$plugin.tx_ecomskugenerator.persistence.storagePid}
+	}
+	features {
+		# uncomment the following line to enable the new Property Mapper.
+		# rewrittenPropertyMapper = 1
+	}
+	settings {
+		webmasterEmail = {$plugin.tx_ecomskugenerator.settings.webmasterEmail}
+		accessPricing = {$plugin.tx_ecomskugenerator.settings.accessPricing}
+		mail {
+			noReplyEmail = {$plugin.tx_ecomskugenerator.settings.mail.noReplyEmail}
+			senderEmail = {$plugin.tx_ecomskugenerator.settings.mail.senderEmail}
+			senderName = {$plugin.tx_ecomskugenerator.settings.mail.senderName}
+			carbonCopy = {$plugin.tx_ecomskugenerator.settings.mail.carbonCopy}
+			confirmationMessage = {$plugin.tx_ecomskugenerator.settings.mail.confirmationMessage}
+		}
+		log {
+			ipLength = 3
+		}
+	}
+	switchableControllerActions = Generator->index;Generator->currencySelect;Generator->setCurrency;Generator->reset;Log->new;Log->create;Log->confirmation
+}
+
+page.includeCSSLibs {
+	ccg = EXT:ecom_config_code_generator/Resources/Public/CSS/app.css
+	ccg.import = 1
+	sweetAlertJS = https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css
+	sweetAlertJS.external = 1
+	sweetAlertJS.disableCompression = 1
+	sweetAlertJS.excludeFromConcatenation = 1
+}
+
+EcomSkuGeneratorAjaxRequest = PAGE
+EcomSkuGeneratorAjaxRequest {
+	typeNum = 1444800649
+
+	config {
+		disableAllHeaderCode = 1
+		xhtml_cleaning = 0
+		admPanel = 0
+		debug = 0
+		no_cache = 1
+		additionalHeaders = Content-type:application/json|Cache-Control:no-cache, must-revalidate, max-age=0|Pragma:no-cache
+		linkVars = L
+	}
+
+	10 = USER
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		vendorName = S3b0
+		extensionName = EcomSkuGenerator
+		pluginName = Generator
+		controller = AjaxRequest
+		switchableControllerActions {
+			AjaxRequest {
+				1 = index
+				2 = updatePart
+				3 = showHint
+			}
+		}
+	}
+
+	view < plugin.tx_ecomskugenerator.view
+	persistence < plugin.tx_ecomskugenerator.persistence
+	settings < plugin.tx_ecomskugenerator.settings
+}

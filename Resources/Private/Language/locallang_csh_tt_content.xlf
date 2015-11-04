@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-10-06T07:57:48Z" product-name="ecom_sku_generator">
+		<header/>
+		<body>
+			<trans-unit id="sku_generator_part_groups.description">
+				<source>Link content element to part groups</source>
+			</trans-unit>
+			<trans-unit id="sku_generator_configurations.description">
+				<source>Link content element to configurations</source>
+			</trans-unit>
+			<trans-unit id="sku_generator_pricing.description">
+				<source>Link content element to configuration</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

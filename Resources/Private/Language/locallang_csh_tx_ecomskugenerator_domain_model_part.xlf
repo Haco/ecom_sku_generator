@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-10-06T07:57:48Z" product-name="ecom_sku_generator">
+		<header/>
+		<body>
+			<trans-unit id="title.description">
+				<source>The part title</source>
+			</trans-unit>
+			<trans-unit id="image.description">
+				<source>A part image</source>
+			</trans-unit>
+			<trans-unit id="hint.description">
+				<source>Give user a hint</source>
+			</trans-unit>
+			<trans-unit id="pricing.description">
+				<source>Part pricing</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

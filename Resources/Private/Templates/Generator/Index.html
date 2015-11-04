@@ -1,0 +1,57 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+
+	<!-- NoJS Warning! -->
+	<noscript><div class="typo3-messages"><div class="typo3-message message-error">ATTENTION: JavaScript needs to be enabled!</div></div></noscript>
+
+	<div class="generator-index">
+		<!-- progress bar/indicator -->
+		<progress value="{value.progress}" max="1" id="generator-progress-value">
+			<div class="progress-bar">
+				<span><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>%</span>
+			</div>
+		</progress>
+
+		<p id="generator-progress-number"><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span><f:translate id="label.percentDone" extensionName="ecom_config_code_generator" /></p>
+
+		<!-- part group navigation -->
+		<div id="generator-part-group-select-index">
+			<f:render partial="PartGroup/Selector" arguments="{partGroups: value.partGroups}" />
+		</div>
+		<div id="generator-part-group-select-part-index">
+			<div class="configurator" id="generator-canvas-main">
+				<!-- render part group information -->
+				<div id="generator-part-group-info"><f:render partial="PartGroup/Info" arguments="{partGroup: value.currentPartGroup}" /></div>
+				<div class="clearfix"></div>
+				<!-- parse parts; return selectors -->
+				<f:render partial="PartGroup/Parts" arguments="{parts: value.currentPartGroup.parts, pricingEnabled: pricingEnabled}" />
+			</div>
+		</div>
+		<div class="clearfix">
+			<p></p>
+			<f:link.action action="reset" class="btn btn-default{f:if(condition: '{value.progress} <= 0', then: ' disabled')}" noCacheHash="1" id="generator-reset-configuration-button"><f:translate id="label.resetConfiguration" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-undo"></i></f:link.action>
+			<a data-part-group="{value.nextPartGroup}" data-current="{value.currentPartGroup.uid -> f:format.number(decimals: 0)}" class="btn btn-default{f:if(condition: '{value.currentPartGroup.active} == 0', then: ' disabled')}" id="generator-next-button"><f:translate id="label.proceed" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-angle-right"></i></a>
+			<f:link.action action="index" class="btn btn-primary" noCacheHash="1" id="generator-show-result-button"><f:translate id="label.showResult" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-angle-double-right"></i></f:link.action>
+		</div>
+	</div>
+
+	<hr />
+
+	<!-- render configuration result -->
+	<div id="generator-result-canvas">
+		<f:render partial="Result" arguments="{value: value, jsData: jsData, contentObject: contentObject}" />
+	</div>
+
+	<script type="text/javascript" language="JavaScript">
+		var t3pid = {jsData.pageId},
+			t3lang = {jsData.sysLanguage -> f:format.number(decimals: 0)},
+			t3cobj = {jsData.contentObject},
+			showResult = Boolean({value.showResultingConfiguration -> f:format.number(decimals: 0)}),
+			js = document.createElement("script");
+		js.type = "text/javascript";
+		js.src = "{f:uri.resource(path:'JavaScript/app.js')}";
+		document.body.appendChild(js);
+	</script>
+
+</f:section>

@@ -1,0 +1,31 @@
+config.tx_extbase {
+    persistence {
+        classes {
+            S3b0\EcomSkuGenerator\Domain\Model\Content {
+                mapping {
+                    tableName = tt_content
+                    columns {
+                        bodytext.mapOnProperty = bodytext
+                        header.mapOnProperty = header
+                    }
+                }
+            }
+            S3b0\EcomSkuGenerator\Domain\Model\Part {
+                mapping {
+                    tableName = tx_ecomskugenerator_domain_model_part
+                    columns {
+                        sorting.mapOnProperty = sorting
+                    }
+                }
+            }
+            S3b0\EcomSkuGenerator\Domain\Model\PartGroup {
+                mapping {
+                    tableName = tx_ecomskugenerator_domain_model_partgroup
+                    columns {
+                        sorting.mapOnProperty = sorting
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-10-06T07:57:48Z" product-name="ecom_sku_generator">
+		<header/>
+		<body>
+			<trans-unit id="note.description">
+				<source>The note itself</source>
+			</trans-unit>
+			<trans-unit id="use_logical_and.description">
+				<source>Specifies whether to use logical OR or AND chaining for dependent parts</source>
+			</trans-unit>
+			<trans-unit id="dependent_parts.description">
+				<source>Parts the note display depends on</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,17 @@
+<f:if condition="{parts -> f:count()}">
+	<f:for each="{parts}" as="part" iteration="partIterator">
+		<a data-part="{part.uid}" data-part-state="{part.active -> f:format.number(decimals : 0)}" class="generator-select-part-group-part generator-select-part-group-part-selector {f:if(condition : '{part.inConflictWithSelectedParts}', then : 'disabled', else : 'enabled')}" tabindex="{partIterator.cycle}">
+			<f:if condition="{pricingEnabled}">
+				<span class="generator-select-part-group-part-price">{part.differencePricing} ( <abbr title="{f:translate(id: 'unitPrice', extensionName: 'ecom_config_code_generator')}">{f:translate(id: 'unitPriceAbbr', extensionName: 'ecom_config_code_generator')}</abbr> {part.currencyPricing} )</span>
+			</f:if>
+			<f:if condition="{part.hint}">
+				<div class="generator-select-part-group-part-info-wrapper">
+					<span class="generator-select-part-group-part-info"><f:translate id="label.moreInformation" extensionName="ecom_config_code_generator" /></span>
+				</div>
+			</f:if>
+			<div class="generator-checkbox {f:if(condition:'{part.active}',then:'checked',else:'unchecked')}"><span class="generator-part-checkbox-image"></span></div>
+			<span class="generator-select-part-group-part part">{part.title} {f:if(condition:'{0:\'{part.codeSegment}\'} != {0:\'\'}',then:'[{part.codeSegment}]')}</span>
+		</a>
+		<div class="clearfix"></div>
+	</f:for>
+</f:if>
