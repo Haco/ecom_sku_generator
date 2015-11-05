@@ -6,8 +6,7 @@
 	 * Time: 13:43
 	 */
 
-$extKey = 'ecom_sku_generator';
-$translate = "LLL:EXT:{$extKey}/Resources/Private/Language/locallang_db.xlf:";
+$translate = "LLL:EXT:ecom_sku_generator/Resources/Private/Language/locallang_db.xlf:";
 
 /** @var \TYPO3\CMS\Core\Database\DatabaseConnection $db */
 $db = $GLOBALS['TYPO3_DB'];

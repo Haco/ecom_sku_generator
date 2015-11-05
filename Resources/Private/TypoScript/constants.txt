@@ -23,20 +23,20 @@ plugin.tx_ecomskugenerator {
 		storagePid =
 	}
 	settings {
-		# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=Webmaster E-Mail address
+		# cat=plugin.tx_ecomskugenerator//general; type=string; label=Webmaster E-Mail address
 		webmasterEmail = webmaster@ecom-ex.com
-		# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=FE user group to access price display
+		# cat=plugin.tx_ecomskugenerator//general; type=int+; label=FE user group to access price display
 		accessPricing = 0
 		mail {
-			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=No reply address
+			# cat=plugin.tx_ecomskugenerator//general; type=string; label=No reply address
 			noReplyEmail = noreply@ecom-ex.com
-			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender address
+			# cat=plugin.tx_ecomskugenerator//general; type=string; label=E-Mail sender address
 			senderEmail = sales@ecom-ex.com
-			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail sender name
+			# cat=plugin.tx_ecomskugenerator//general; type=string; label=E-Mail sender name
 			senderName = ecom instruments GmbH
-			# cat=plugin.tx_ecomconfigcodegenerator//general; type=string; label=E-Mail carbon copy receivers:Split by comma if multiple
+			# cat=plugin.tx_ecomskugenerator//general; type=string; label=E-Mail carbon copy receivers:Split by comma if multiple
 			carbonCopy = marketing@ecom-ex.com ecom Marketing
-			# cat=plugin.tx_ecomconfigcodegenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
+			# cat=plugin.tx_ecomskugenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
 			confirmationMessage = 4821
 		}
 	}

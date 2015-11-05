@@ -402,10 +402,10 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return float $pricingNumeric
+	 * @return string $pricingNumeric
 	 */
 	public function getPricingNumeric() {
-		return $this->pricingNumeric;
+		return number_format($this->pricingNumeric, 2);
 	}
 
 	/**
@@ -537,14 +537,13 @@ class PartGroup extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+	 * @param \S3b0\EcomSkuGenerator\Domain\Model\Currency $currency
 	 * @param array                                               $settings
 	 */
 	public function setPartsCurrencyPricing(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency = NULL, array $settings = [ ]) {
 		if ( $this->parts instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $this->parts->count() ) {
-			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
+			/** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
 			foreach ( $this->parts as $part ) {
-				$part->setCurrencyPricing($currency, $settings);
 				if ( $part->isActive() ) {
 					$this->pricingNumeric += $part->getNoCurrencyPricing();
 				}

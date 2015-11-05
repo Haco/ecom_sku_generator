@@ -67,7 +67,6 @@ class GeneratorController extends \S3b0\EcomSkuGenerator\Controller\BaseControll
 				$currentPartGroup,
 				$configuration
 			);
-			#$this->automaticallySetPartIfNoAlternativeExists($currentPartGroup->getParts(), $configuration);
 		}
 
 		$jsonData = [
@@ -78,8 +77,7 @@ class GeneratorController extends \S3b0\EcomSkuGenerator\Controller\BaseControll
 			'progressPercentage' => $progress * 100,
 			'partGroups' => $partGroups,
 			'currentPartGroup' => $currentPartGroup,
-			#'nextPartGroup' => $currentPartGroup instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup && $currentPartGroup->getNext() instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\PartGroup ? $currentPartGroup->getNext()->getUid() : 0,
-			#'configurationPrice' => $this->contentObject->getCcgConfiguration()->getConfigurationPricing(),
+			'nextPartGroup' => $currentPartGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup && $currentPartGroup->getNext() instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ? $currentPartGroup->getNext()->getUid() : 0,
 			'showResultingConfiguration' => $progress === 1 && !$checkIfPartGroupArgumentIsSet
 		];
 

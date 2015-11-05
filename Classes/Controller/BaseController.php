@@ -95,7 +95,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 	/**
 	 * logRepository
 	 *
-	 * @var \S3b0\EcomConfigCodeGenerator\Domain\Repository\LogRepository
+	 * @var \S3b0\EcomSkuGenerator\Domain\Repository\LogRepository
 	 * @inject
 	 */
 	protected $logRepository;
@@ -164,7 +164,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 			$this->throwStatus(404, NULL, '<h1>' . LocalizationUtility::translate('404.noPartGroups', 'ecom_config_code_generator') . '</h1>' . LocalizationUtility::translate('404.message.noPartGroups', $this->extensionName, [ "<a href=\"mailto:{$this->settings['webmasterEmail']}\">{$this->settings['webmasterEmail']}</a>" ]));
 
 		$this->pricing = $this->contentObject->isPricingEnabled() && $GLOBALS['TSFE']->loginUser && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings['accessPricing']);
-$this->pricing = TRUE;
+
 		// Frontend-Session
 		$this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
 		// On reset destroy config session data
@@ -234,14 +234,13 @@ $this->pricing = TRUE;
 		if ( sizeof($configuration) ) {
 			foreach ( $configuration as $partGroupParts ) {
 				$configuredParts = array_merge($configuredParts, (array) $partGroupParts);
-				if ( $this->pricing ) {
-					foreach ( $partGroupParts as $uid ) {
-						/** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
-						$part = $this->partRepository->findByUid($uid);
-						if ( $part->isLiableToPayCosts() ) {
-							$part->setCurrency($this->currency);
-							$this->contentObject->sumUpConfigurationPrice($part->getNoCurrencyPricing());
-						}
+				foreach ( $partGroupParts as $uid ) {
+					/** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
+					$part = $this->partRepository->findByUid($uid);
+					$part->setActive(TRUE);
+					if ( $part->isLiableToPayCosts() ) {
+						$part->setCurrency($this->currency);
+						$this->contentObject->sumUpConfigurationPrice($part->getNoCurrencyPricing());
 					}
 				}
 			}
@@ -302,7 +301,6 @@ $this->pricing = TRUE;
 			$partGroup->setStepIndicator(++$cycle);
 			/** SET PRICE */
 			$partGroup->setPartsCurrencyPricing($this->currency, $this->settings);
-			#$this->correctNextPartGroupIfItHasBeenAffectedByAutoSetPartsOrSimilar($partGroup);
 			if ( !array_key_exists($partGroup->getUid(), $configuration) && !is_array($configuration[$partGroup->getUid()]) && !$current instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ) {
 				$current = $partGroup;
 			}
@@ -314,54 +312,6 @@ $this->pricing = TRUE;
 		$progress = ( sizeof($configuration) - $locked ) / ( $partGroups->count() - $locked );
 
 		return $partGroups;
-	}
-
-	/**
-	 * Traverse setting correct 'next' item, skipping locked
-	 * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
-	 */
-	private function correctNextPartGroupIfItHasBeenAffectedByAutoSetPartsOrSimilar(\S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup = NULL, $traverse = 0) {
-		$next = $partGroup->getNext();
-		if ( $traverse > 0 ) {
-			for ($i = 0; $i < $traverse; $i++) {
-				if ( $next instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ) {
-					$next = $next->getNext();
-				} else {
-					$next = NULL;
-					continue;
-				}
-			}
-		}
-		if ( $next instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ) {
-			if ( $next->isUnlocked() ) {
-				$partGroup->setNext($next);
-			} elseif ( $next->getNext() instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ) {
-				$this->correctNextPartGroupIfItHasBeenAffectedByAutoSetPartsOrSimilar($partGroup, ++$traverse);
-			}
-		} else {
-			$partGroup->setNext(NULL);
-		}
-	}
-
-	/**
-	 * @param \S3b0\EcomSkuGenerator\Controller\BaseController $controller Ensure an Instance of extensions
-	 *                                                                     BaseController is given to provide
-	 *                                                                     necessary injections
-	 * @param array                                            $list
-	 *
-	 *@return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	protected static function getAndSetActivePartsForPartGroup(\S3b0\EcomSkuGenerator\Controller\BaseController $controller, array $list) {
-		$objectStorage = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		if ( $parts = $controller->partRepository->findByList($list) ) {
-			/** @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part */
-			foreach ( $parts as $part ) {
-				$part->setActive(TRUE);
-				$objectStorage->attach($part);
-			}
-		}
-
-		return $objectStorage;
 	}
 
 	/**
@@ -385,29 +335,9 @@ $this->pricing = TRUE;
 				$part->setCompatibleToSelection(TRUE);
 			}
 		}
-		if ( $this->pricing ) {
-			/** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
-			foreach ( $parts as $part ) {
-				$part->setCurrency($this->currency);
-			}
-		}
-	}
-
-	/**
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Part> $storage
-	 * @param array                                                                                         $configuration
-	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-	 */
-	protected function automaticallySetPartIfNoAlternativeExists(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $storage = NULL, array $configuration) {
 		/** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
-		$part = $storage->toArray()[0];
-		if ( $storage instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage && $storage->count() === 1 ) {
-			\S3b0\EcomSkuGenerator\Session\ManageConfiguration::removePartGroupFromConfiguration($this, $part->getPartGroup(), $configuration);
-			\S3b0\EcomSkuGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
-
-			$arguments = $this->request->getArguments();
-			ArrayUtility::mergeRecursiveWithOverrule($arguments, [ 'partGroup' => $part->getPartGroup()->getNext() ]);
-			$this->forward('index', NULL, NULL, $arguments);
+		foreach ( $parts as $part ) {
+			$part->setCurrency($this->currency);
 		}
 	}
 
@@ -437,7 +367,7 @@ $this->pricing = TRUE;
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
 					<td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a></td>
-				" ) . ( $this->pricing ? "<td style=\"text-align:right\">{$partGroup->getPricing()}</td>" : "" );
+				" ) . ( $this->pricing ? "<td style=\"text-align:right\">" . \S3b0\EcomSkuGenerator\Utility\PriceHandler::getPriceInCurrency($partGroup->getPricingNumeric(), $this->currency) . "</td>" : "" );
 					$summaryTableMailRows[] = ( "
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
@@ -465,14 +395,14 @@ $this->pricing = TRUE;
 	}
 
 	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $log
-	 * @param array                                          $configuration
+	 * @param \S3b0\EcomSkuGenerator\Domain\Model\Log $log
+	 * @param array                                   $configuration
 	 */
-	protected function addConfigurationToLog(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log &$log, array $configuration) {
+	protected function addConfigurationToLog(\S3b0\EcomSkuGenerator\Domain\Model\Log &$log, array $configuration) {
 		$ipLength = !MathUtility::canBeInterpretedAsInteger($this->settings['log']['ipLength']) || $this->settings['log']['ipLength'] > 4 ? 4 : $this->settings['log']['ipLength'];
 
 		$configurations = $this->configurationRepository->findByConfigurationArray($configuration);
-#		$code = $this->getSku($configurations, $configuration);
+		$this->initializePartGroups($this->contentObject->getSkuGeneratorPartGroups(), $configuration);
 
 		/** @var \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup */
 		foreach ( $this->contentObject->getSkuGeneratorPartGroups() as $partGroup ) {
@@ -489,13 +419,10 @@ $this->pricing = TRUE;
 		if ( $log->getQuantity() === 0 ){
 			$log->setQuantity(1);
 		}
-#		/** @var \S3b0\EcomSkuGenerator\Domain\Model\Configuration $currentConfiguration */
-#		$currentConfiguration = $configurations->getFirst();
-#		$currentConfiguration->setConfigurationPricingNumeric($currentConfiguration->getConfigurationPricingNumeric() * ($log->getQuantity() ?: 1));
 		$log->setSessionId($GLOBALS['TSFE']->fe_user->id)
 			->setConfiguration($configurations->getFirst()->getSku())
 			->maskIpAddress($ipLength)
-#			->setPricing($currentConfiguration->getConfigurationPricing())
+			->setPricing($this->contentObject->getConfigurationPriceFormatted())
 			->setPid(0);
 		if ( $GLOBALS['TSFE']->loginUser ) {
 			/** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser */

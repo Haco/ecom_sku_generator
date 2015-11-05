@@ -39,53 +39,11 @@
 			<trans-unit id="tx_ecomskugenerator_domain_model_partgroup">
 				<source>Part Group</source>
 			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_partgroup.title">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_partgroup.icon">
-				<source>Icon</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_partgroup.prompt">
-				<source>Prompt</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_partgroup.settings">
-				<source>Settings</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_partgroup.parts">
-				<source>Parts</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_partgroup.dependent_note">
-				<source>Dependent Note</source>
-			</trans-unit>
 			<trans-unit id="tx_ecomskugenerator_domain_model_part">
 				<source>Part</source>
 			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_part.title">
-				<source>Title</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_part.image">
-				<source>Image</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_part.hint">
-				<source>Hint</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_part.pricing">
-				<source>Pricing</source>
-			</trans-unit>
 			<trans-unit id="tx_ecomskugenerator_domain_model_dependentnote">
 				<source>Dependent Note</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_dependentnote.note">
-				<source>Note</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_dependentnote.use_logical_and">
-				<source>Use Logical And</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_dependentnote.dependent_parts">
-				<source>Dependent Parts</source>
-			</trans-unit>
-			<trans-unit id="tx_ecomskugenerator_domain_model_generator">
-				<source>Generator</source>
 			</trans-unit>
 			<trans-unit id="tx_ecomskugenerator_domain_model_log">
 				<source>Log</source>

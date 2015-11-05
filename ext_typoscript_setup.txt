@@ -26,6 +26,14 @@ config.tx_extbase {
                     }
                 }
             }
+            S3b0\EcomSkuGenerator\Domain\Model\Log {
+                mapping {
+                    tableName = tx_ecomconfigcodegenerator_domain_model_log
+                    columns {
+                        configured_parts_sku.mapOnProperty = configuredPartsSku
+                    }
+                }
+            }
         }
     }
 }

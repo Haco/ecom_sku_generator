@@ -47,11 +47,11 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
 	/**
 	 * action new
 	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog
+	 * @param \S3b0\EcomSkuGenerator\Domain\Model\Log $newLog
 	 * @ignorevalidation $newLog
 	 * @return void
 	 */
-	public function newAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog = NULL) {
+	public function newAction(\S3b0\EcomSkuGenerator\Domain\Model\Log $newLog = NULL) {
 		$configuration = $this->feSession->get('config') ?: [ ];
 		if ( !sizeof($configuration) )
 			$this->forward('index', 'Generator');
@@ -80,10 +80,10 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
 	/**
 	 * action create
 	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog
+	 * @param \S3b0\EcomSkuGenerator\Domain\Model\Log $newLog
 	 * @return void
 	 */
-	public function createAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Log $newLog) {
+	public function createAction(\S3b0\EcomSkuGenerator\Domain\Model\Log $newLog) {
 		/** EMail stuff */
 		$configuration = $this->feSession->get('config') ?: [ ];
 		if ( sizeof($configuration) ) {

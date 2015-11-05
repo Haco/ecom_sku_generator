@@ -216,7 +216,7 @@ class ModifyTCA {
 	/**
 	 * @return \TYPO3\CMS\Lang\LanguageService
 	 */
-	protected function getLanguageService() {
+	private function getLanguageService() {
 		return $GLOBALS['LANG'];
 	}
 

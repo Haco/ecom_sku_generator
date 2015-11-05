@@ -28,6 +28,6 @@ namespace S3b0\EcomSkuGenerator\Domain\Repository;
  ***************************************************************/
 
 /**
- * The repository for PartGroups
+ * The repository for Logs
  */
-class PartGroupRepository extends \TYPO3\CMS\Extbase\Persistence\Repository { }
+class LogRepository extends \S3b0\EcomConfigCodeGenerator\Domain\Repository\LogRepository { }
