@@ -367,7 +367,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
 					<td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a></td>
-				" ) . ( $this->pricing ? "<td style=\"text-align:right\">" . \S3b0\EcomSkuGenerator\Utility\PriceHandler::getPriceInCurrency($partGroup->getPricingNumeric(), $this->currency) . "</td>" : "" );
+				" ) . ( $this->pricing ? "<td style=\"text-align:right\">" . \S3b0\EcomSkuGenerator\Utility\PriceHandler::getPriceInCurrency($partGroup->getPricingNumeric(), $this->currency, TRUE) . "</td>" : "" );
 					$summaryTableMailRows[] = ( "
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>

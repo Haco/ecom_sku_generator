@@ -10,7 +10,7 @@
  * "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'SKU Generator',
 	'description' => 'SKU Generator',
 	'category' => 'plugin',
@@ -21,19 +21,19 @@ $EM_CONF[$_EXTKEY] = array(
 	'uploadfolder' => '1',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
-	'version' => '1.0.0',
-	'constraints' => array(
-		'depends' => array(
+	'version' => '1.0.3',
+	'constraints' => [
+		'depends' => [
 			'cms' => '',
 			'typo3' => '6.2',
 			'php' => '5.5',
 			'ecom_toolbox' => '1.2.0',
 			'powermail' => '',
 			'ecom_config_code_generator' => '',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
-);
+		],
+		'conflicts' => [
+		],
+		'suggests' => [
+		],
+	],
+];
