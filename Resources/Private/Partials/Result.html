@@ -6,7 +6,7 @@
 	</h2>
 	<f:link.action action="reset" class="btn btn-default" noCacheHash="1"><f:translate id="label.resetConfiguration" extensionName="ecom_config_code_generator" /> <i class="fa fa-undo fa-fw"></i></f:link.action>
 	<a class="btn btn-default generator-result-review-config dropdown active" title="{f:translate(id: 'label.summaryButtonTitle', extensionName: 'ecom_config_code_generator')}"><i class="fa fa-bars fa-fw"></i> <f:translate id="label.summaryButton" extensionName="ecom_config_code_generator" /></a>
-	<f:link.action action="new" controller="Log" id="generator-request" noCacheHash="1" additionalParams="{L: jsData.sysLanguage}" class="btn btn-default" target="_self"><i class="fa fa-envelope fa-fw"></i> <f:translate id="label.requestButton" extensionName="ecom_config_code_generator" arguments="{0: contentObject.header}" /></f:link.action>
+	<f:link.action action="new" controller="Log" id="generator-request" noCacheHash="1" class="btn btn-default" target="_self"><i class="fa fa-envelope fa-fw"></i> <f:translate id="label.requestButton" extensionName="ecom_config_code_generator" arguments="{0: contentObject.header}" /></f:link.action>
 </div>
 <div id="generator-summary-table">
 	{value.configurationCode.summaryTable -> f:format.html()}
