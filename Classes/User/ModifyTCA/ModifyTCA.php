@@ -174,14 +174,16 @@ class ModifyTCA {
 	}
 
 	/**
+     * ONLY FOR "ext:ecom_configcode_generator" at the moment!!
+     *
 	 * Check if pricing is fixed or percentage
 	 *
 	 * @param array $PA
 	 *
 	 * @return boolean
 	 */
-	public function checkPriceHandling($PA) {
-		$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA['record']['part_group'], 'settings');
+	/*public function checkPriceHandling($PA) {
+		$partGroup = BackendUtility\BackendUtility::getRecord('tx_ecomconfigcodegenerator_domain_model_partgroup', $PA['record']['part_group'][0], 'settings');
 		$check = ($partGroup['settings'] & Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING) === Setup::BIT_PARTGROUP_USE_PERCENTAGE_PRICING;
 
 		switch ( $PA['conditionParameters'][0] ) {
@@ -190,7 +192,7 @@ class ModifyTCA {
 			default:
 				return $check;
 		}
-	}
+	}*/
 
 	/**
 	 * @return \TYPO3\CMS\Lang\LanguageService
