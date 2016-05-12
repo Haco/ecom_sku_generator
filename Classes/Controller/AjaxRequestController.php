@@ -41,7 +41,7 @@ class AjaxRequestController extends \S3b0\EcomSkuGenerator\Controller\GeneratorC
 	/**
 	 * @var string
 	 */
-	protected $defaultViewObjectName = 'TYPO3\\CMS\\Extbase\\Mvc\\View\\JsonView';
+	protected $defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
 
 	/**
 	 * Initializes the controller before invoking an action method.
@@ -89,7 +89,7 @@ class AjaxRequestController extends \S3b0\EcomSkuGenerator\Controller\GeneratorC
 	 * @return void
 	 */
 	public function updatePartAction(\S3b0\EcomSkuGenerator\Domain\Model\Part $part = NULL, $unset = FALSE) {
-		$configuration = $this->feSession->get('config');
+        $configuration = $this->feSession->get('config') ?: [];
 		// Manage Session data
 		if ( $unset === FALSE ) {
 			\S3b0\EcomSkuGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
@@ -110,18 +110,24 @@ class AjaxRequestController extends \S3b0\EcomSkuGenerator\Controller\GeneratorC
 	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
 	 */
 	public function initializeShowHintAction() {
-		if ( $this->request->hasArgument('part') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part')) && !$this->request->getArgument('part') instanceof \S3b0\EcomConfigCodeGenerator\Domain\Model\Part )
+		if ( $this->request->hasArgument('part') && MathUtility::canBeInterpretedAsInteger($this->request->getArgument('part')) && !$this->request->getArgument('part') instanceof \S3b0\EcomSkuGenerator\Domain\Model\Part)
 			$this->request->setArgument('part', $this->partRepository->findByUid($this->request->getArgument('part')));
 	}
 
 	/**
-	 * action updatePart
+	 * Shows bootstrap hint modal for parts
 	 *
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Part|NULL $part
+	 * @param \S3b0\EcomSkuGenerator\Domain\Model\Part|null $part
 	 * @return void
 	 */
-	public function showHintAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Part $part = NULL) {
-		$this->view->assign('value', [ $this->sanitize_output($part->getHint()) ]);
+	public function showHintAction(\S3b0\EcomSkuGenerator\Domain\Model\Part $part = NULL) {
+        $title = $part->getTitle();
+        $hint = $part->getHint();
+
+        $this->view->assign('value', [
+            'partTitle' => $this->sanitize_output($title),
+            'partHint' => $this->sanitize_output($hint)
+        ]);
 	}
 
 

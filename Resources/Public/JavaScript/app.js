@@ -3,16 +3,18 @@
  * main.js
  */
 
-// Equalize height of checkbox and part group selection on resize.
+// Centers Checkboxes
 (function($) {
-	function equalizeHeight() {
-		$('#ccg-generator-canvas .generator-part-group-select').each(function() {
-			$(this).siblings('.generator-part-group-state').height($(this).outerHeight());
-		});
-	}equalizeHeight();
-	$(window).resize(function() {
-		equalizeHeight();
-	});
+    function equalizeHeight() {
+        $('#ccg-generator-canvas .generator-select-part-group-part').each(function() {
+            var checkboxHeight = $('.generator-checkbox', this).outerHeight();
+            var partSelectorHeight = $(this).height();
+            $('.generator-checkbox', this).css('margin-top', (partSelectorHeight / 2) - (checkboxHeight / 2));
+        });
+    }equalizeHeight();
+    $(window).resize(function() {
+        equalizeHeight();
+    });
 })(jQuery);
 
 // Review/Summary Configuration Button
@@ -109,18 +111,16 @@ function ccgIndex(target) {
  */
 function getPartInformation(part) {
 	genericAjaxRequest(t3pid, t3lang, 1444800649, 'showHint', {
-			part: part,
-			cObj: t3cobj
-		}, function(result) {
-			swal({
-				title: null,
-				text: result,
-				html: true,
-				confirmButtonText: "OK"
-			});
-		}
-	);
-	return false;
+            part: part,
+            cObj: t3cobj
+        }, function(result) {
+            makeBootstrapModal({
+                'title': result['partTitle'],
+                'body': result['partHint']
+            });
+        }
+    );
+    return false;
 }
 
 /**
@@ -193,9 +193,9 @@ function onSuccessFunction(result) {
 		nextButton.attr('data-part-group', result.nextPartGroup);
 		nextButton.attr('data-current', result.currentPartGroup ? result.currentPartGroup['uid'] : 0);
 		if ( result.currentPartGroup && $('#generator-part-group-' + result.currentPartGroup['uid'] + '-link').hasClass('generator-part-group-state-1') ) {
-			nextButton.removeClass('disabled');
-		} else {
-			nextButton.addClass('disabled');
+            nextButton.removeClass('disabled btn-default').addClass('btn-primary');
+        } else {
+            nextButton.addClass('disabled btn-default').removeClass('btn-primary');
 		}
 		nextButton.show();
 		if ( result.progress === 0 ) {
@@ -258,13 +258,33 @@ function updateProgressIndicator(progress) {
 
 // Popup on click
 function addInfoTrigger() {
-	var triggerHint = '#ccg-generator-canvas .generator-select-part-group-part-info';
+    var triggerHint = '#ccg-generator-canvas .generator-select-part-group-part-info';
+    var triggerPreviewImage = '#ccg-generator-canvas .generator-select-part-group-part-image';
 
-	$(triggerHint).on('click', function(e) {
-		e.preventDefault();
-		getPartInformation($(this).parents('a').first().attr('data-part'));
-		return false;
-	})
+    $(triggerHint).on('click', function(e) {
+        e.preventDefault();
+        getPartInformation($(this).parents('a').first().attr('data-part'));
+        return false;
+    });
+
+    $(triggerPreviewImage).on('click', function(e) {
+        e.preventDefault();
+        return false;
+    }).popover({
+        html: true,
+        trigger: 'hover',
+        placement: 'left',
+        content: function () {
+            return '<img width="200px" alt="Preview Image" src="'+$(this).data('image-src') + '" />';
+        }
+    }).on('click', function() {
+        $(this).popover('toggle');
+    }).on('shown.bs.popover', function () {
+        $('#' + $(this).attr('aria-describedby')).on('click', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
 }
 
 /**
@@ -276,6 +296,35 @@ function assignListeners() {
 	ccgIndex('.generator-part-group-select');
 }
 
+/**
+ * Build Bootstrap Modal
+ */
+function makeBootstrapModal(modalData, part, unset, confirmModal) {
+    confirmModal = typeof confirmModal !== 'undefined' ? confirmModal : false;
+
+    var $CCGModal = $('.ccg-base-modal');
+    var $ModalTitle = $CCGModal.find('.ccg-base-modal-title').empty();
+    var $ModalBody = $CCGModal.find('.ccg-base-modal-body').empty();
+    var $ModalFooter = $CCGModal.find('.ccg-base-modal-footer').empty();
+
+    $ModalTitle.html('<span class="fa fa-info-circle fa-fw space-right"></span>' + ' ' + modalData['title']);
+    $ModalBody.html(modalData['body']);
+
+    if (confirmModal) {
+        $ModalFooter.append('<button type="button" class="btn btn-danger text-uppercase" data-dismiss="modal">Cancel <span class="fa fa-close fa-fw"></span></button>');
+        $ModalFooter.append('<button type="button" class="btn btn-success text-uppercase" id="ccg-modal-confirm">Proceed <span class="fa fa-chevron-right fa-fw"></span></button>');
+        var $ModalConfirm = $ModalFooter.find('#ccg-modal-confirm');
+
+        $ModalConfirm.on('click', function() {
+            ccgUpdatePartExec(part, unset);
+            $CCGModal.modal('hide');
+        });
+    } else {
+        $ModalFooter.append('<button type="button" class="btn btn-primary text-uppercase" data-dismiss="modal">OK <span class="fa fa-check fa-fw"></span></button>');
+    }
+
+    $CCGModal.modal('show');
+}
 
 /**********************************************
  * Initialize Event Listeners once DOM loaded *

@@ -44,6 +44,8 @@ class ModifyTCA {
 	 * @return string
 	 */
 	public function selectPartsUserField(array &$PA, $pObj) {
+        $configurationUid = $PA['row']['uid'];
+
 		if ( !$PA['row']['content'] )
 			return is_numeric($PA['row']['uid']) ? 'Not linked to any content object! Contact your system administrator for further assistance.' : 'Save to update mask!';
 		$db = $this->getDatabaseConnection();
@@ -72,45 +74,22 @@ class ModifyTCA {
 		$item = '';
 
 		$iterator = 0;
-		if ( version_compare(TYPO3_branch, '6.2', '>=') && version_compare(TYPO3_branch, '7.0', '<') ) {
-			// TYPO3 6.2+
-			// Get values of selected items:
-			$itemArray = CoreUtility\GeneralUtility::trimExplode(',', $PA['itemFormElValue'], TRUE);
-			foreach ($itemArray as $tk => $tv) {
-				$tvP = explode('|', $tv, 2);
-				$tvP[0] = rawurldecode($tvP[0]);
-				$itemArray[$tk] = $tvP[0];
-			}
-			foreach ( $partGroups as $partGroup ) {
-				$fieldId = uniqid('tceforms-select-');
-				$options = '';
-				foreach ( $parts[$partGroup['uid']] as $part ) {
-					$selected = '';
-					if ( is_array($itemArray) && in_array($part['uid'], $itemArray) ) {
-						$selected = ' selected="selected"';
-					}
-					$options .= "<option value=\"{$part['uid']}\"{$selected}>{$part['title']}</option>";
-				}
-				$item .= "<hr style=\"border-color: #ccc\" /><label for=\"{$fieldId}\">{$partGroup['title']} :</label><br />";
-				$item .= ('
-					<select id="' . $fieldId . '" name="' . $PA['itemFormElName'] . '[' . $iterator . ']" class="select" onchange="' . $PA['fieldChangeFunc']['TBE_EDITOR_fieldChanged'] . '" style="width:250px">' . $options . '</select>
-				');
-				$iterator++;
-			}
-		} elseif ( version_compare(TYPO3_branch, '7.0', '>=') ) {
-			// TYPO3 7.0+
-			foreach ( $partGroups as $partGroup ) {
-				$fieldId = uniqid('tceforms-select-');
-				$options = '<option value=""></option>';
-				foreach ( $parts[$partGroup['uid']] as $part ) {
-					$selected = '';
-					if ( is_array($PA['itemFormElValue']) && in_array($part['uid'], $PA['itemFormElValue']) ) {
-						$selected = ' selected="selected"';
-					}
-					$options .= "<option value=\"{$part['uid']}\"{$selected}>{$part['title']}</option>";
-				}
-				$item .= "<hr style=\"border-bottom: 1px solid #ddd;height:0\" /><label for=\"{$fieldId}\">{$partGroup['title']} :</label>";
-				$item .= ('
+
+        // TYPO3 7.0+
+        foreach ( $partGroups as $partGroup ) {
+            $fieldId = uniqid('tceforms-select-');
+            $options = '<option value=""></option>';
+            foreach ( $parts[$partGroup['uid']] as $part ) {
+                $selected = '';
+
+                if ( $this->checkIfPartIsSelectedInConfiguration($configurationUid, $part['uid']) ) {
+                    $selected = ' selected="selected"';
+                }
+
+                $options .= "<option value=\"{$part['uid']}\"{$selected}>{$part['title']}</option>";
+            }
+            $item .= "<hr style=\"border-bottom: 1px solid #ddd;height:0\" /><label for=\"{$fieldId}\">{$partGroup['title']} :</label>";
+            $item .= ('
 					<div class="form-control-wrap">
 						<div class="input-group">
 							<span class="input-group-addon input-group-icon">
@@ -124,9 +103,9 @@ class ModifyTCA {
 						</div>
 					</div>
 				');
-				$iterator++;
-			}
-		}
+            $iterator++;
+        }
+
 		return $item;
 	}
 
@@ -226,6 +205,19 @@ class ModifyTCA {
 	private function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
 	}
+
+    /**
+     * Check if the current Part is selected in a SKU Configuration
+     * @param int $configurationUid
+     * @param int $partUid
+     *
+     * @return bool
+     */
+    private function checkIfPartIsSelectedInConfiguration($configurationUid, $partUid) {
+        $db = $this->getDatabaseConnection();
+        $return = $db->exec_SELECTcountRows('*', 'tx_ecomskugenerator_configuration_part_mm', "uid_local={$configurationUid} AND uid_foreign={$partUid}");
+        return ($return) ? true : false;
+    }
 
 }
 

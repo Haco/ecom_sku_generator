@@ -311,7 +311,8 @@ return [
 			'config' => [
 				'type' => 'select',
 				'readOnly' => 1,
-				'foreign_table' => 'tt_content'
+				'foreign_table' => 'tt_content',
+                'foreign_table_where' => 'AND tt_content.pid=###CURRENT_PID###'
 			]
 		]
 

@@ -4,11 +4,16 @@
 			<f:if condition="{pricingEnabled}">
 				<span class="generator-select-part-group-part-price">{part.differencePricing} ( <abbr title="{f:translate(id: 'unitPrice', extensionName: 'ecom_config_code_generator')}">{f:translate(id: 'unitPriceAbbr', extensionName: 'ecom_config_code_generator')}</abbr> {part.currencyPricing} )</span>
 			</f:if>
-			<f:if condition="{part.hint}">
-				<div class="generator-select-part-group-part-info-wrapper">
-					<span class="generator-select-part-group-part-info"><f:translate id="label.moreInformation" extensionName="ecom_config_code_generator" /></span>
-				</div>
-			</f:if>
+            <f:if condition="{part.hint}">
+                <div class="generator-select-part-group-part-button-wrapper">
+                    <span class="generator-select-part-group-part-info"><f:translate id="label.moreInformation" extensionName="ecom_config_code_generator" /></span>
+                </div>
+            </f:if>
+            <f:if condition="{part.image}">
+                <div class="generator-select-part-group-part-button-wrapper">
+                    <span class="fa fa-image generator-select-part-group-part-image" data-image-src="{f:uri.image(width: 200, src: part.image.uid, treatIdAsReference:1)}"></span>
+                </div>
+            </f:if>
 			<div class="generator-checkbox {f:if(condition:'{part.active}',then:'checked',else:'unchecked')}"><span class="generator-part-checkbox-image"></span></div>
 			<span class="generator-select-part-group-part part">{part.title} {f:if(condition:'{0:\'{part.codeSegment}\'} != {0:\'\'}',then:'[{part.codeSegment}]')}</span>
 		</a>

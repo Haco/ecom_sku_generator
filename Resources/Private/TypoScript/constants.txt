@@ -26,16 +26,18 @@ plugin.tx_ecomskugenerator {
 		# cat=plugin.tx_ecomskugenerator//general; type=string; label=Webmaster E-Mail address
 		webmasterEmail = webmaster@ecom-ex.com
 		# cat=plugin.tx_ecomskugenerator//general; type=int+; label=FE user group to access price display
-		accessPricing = 0
+		accessPricing = 7
 		mail {
 			# cat=plugin.tx_ecomskugenerator//general; type=string; label=No reply address
 			noReplyEmail = noreply@ecom-ex.com
 			# cat=plugin.tx_ecomskugenerator//general; type=string; label=E-Mail sender address
 			senderEmail = sales@ecom-ex.com
+            #senderEmail = nicolas.scheidler@ecom-ex.com
 			# cat=plugin.tx_ecomskugenerator//general; type=string; label=E-Mail sender name
 			senderName = ecom instruments GmbH
 			# cat=plugin.tx_ecomskugenerator//general; type=string; label=E-Mail carbon copy receivers:Split by comma if multiple
-			carbonCopy = marketing@ecom-ex.com ecom Marketing
+			carbonCopy = marketing@ecom-ex.com ecom Marketing,info.us@ecom-ex.com ecom USA
+            #carbonCopy =
 			# cat=plugin.tx_ecomskugenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
 			confirmationMessage = 4821
 		}

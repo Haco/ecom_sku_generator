@@ -5,13 +5,29 @@
 	<!-- NoJS Warning! -->
 	<noscript><div class="typo3-messages"><div class="typo3-message message-error">ATTENTION: JavaScript needs to be enabled!</div></div></noscript>
 
+    <!-- Modal -->
+    <div class="modal ccg-base-modal fade" tabindex="-1" role="dialog" aria-labelledby="ccg-modal-label" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #0083cb">
+                    <h3 class="modal-title ccg-base-modal-title text-uppercase" style="color: white;" id="ccg-modal-label"></h3>
+                </div>
+                <div class="modal-body ccg-base-modal-body"></div>
+                <div class="modal-footer ccg-base-modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
 	<div class="generator-index">
 		<!-- progress bar/indicator -->
-		<progress value="{value.progress}" max="1" id="generator-progress-value">
-			<div class="progress-bar">
-				<span><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>%</span>
-			</div>
-		</progress>
+        <div class="ccg-generator-progress-wrap">
+            <progress value="{value.progress}" max="1" id="generator-progress-value">
+                <div class="progress-bar">
+                    <span><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>%</span>
+                </div>
+            </progress>
+            <f:comment><div class="ccg-progress-indicator text-right" style="width:{value.progressPercentage}%"><span><span class="ccg-process-number"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>%</span></div></f:comment>
+        </div>
 
 		<p id="generator-progress-number"><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span><f:translate id="label.percentDone" extensionName="ecom_config_code_generator" /></p>
 
@@ -31,8 +47,8 @@
 		<div class="clearfix">
 			<p></p>
 			<f:link.action action="reset" class="btn btn-default{f:if(condition: '{value.progress} <= 0', then: ' disabled')}" noCacheHash="1" id="generator-reset-configuration-button"><f:translate id="label.resetConfiguration" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-undo"></i></f:link.action>
-			<a data-part-group="{value.nextPartGroup}" data-current="{value.currentPartGroup.uid -> f:format.number(decimals: 0)}" class="btn btn-default{f:if(condition: '{value.currentPartGroup.active} == 0', then: ' disabled')}" id="generator-next-button"><f:translate id="label.proceed" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-angle-right"></i></a>
-			<f:link.action action="index" class="btn btn-primary" noCacheHash="1" id="generator-show-result-button"><f:translate id="label.showResult" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-angle-double-right"></i></f:link.action>
+			<a data-part-group="{value.nextPartGroup}" data-current="{value.currentPartGroup.uid -> f:format.number(decimals: 0)}" class="btn btn-default{f:if(condition: '{value.currentPartGroup.active} == 0', then: ' disabled')}" id="generator-next-button"><f:translate id="label.proceed" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-chevron-right"></i></a>
+			<f:link.action action="index" class="btn btn-success" noCacheHash="1" id="generator-show-result-button"><f:translate id="label.showResult" extensionName="ecom_config_code_generator" /> &nbsp; <i class="fa fa-check"></i></f:link.action>
 		</div>
 	</div>
 
