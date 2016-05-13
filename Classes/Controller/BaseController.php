@@ -169,8 +169,9 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController {
 		$this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
 		// On reset destroy config session data
 		if ( $this->request->getControllerName() === 'Generator' && $this->request->getControllerActionName() === 'reset' ) {
-			$this->feSession->delete('config');
-			$this->redirect('index', 'Generator');
+            $this->feSession->delete('config');
+            $resetUri = $this->uriBuilder->reset()->setArguments(['L' => $GLOBALS['TSFE']->sys_language_uid])->setUseCacheHash(false)->uriFor('index', array(),'Generator');
+            $this->redirectToUri($resetUri);
 		}
 		// Redirect to currency selection if pricing enabled
 		if ( $this->pricing && !in_array($this->request->getControllerActionName(), [ 'currencySelect', 'setCurrency' ]) && !$this->feSession->get('currency', 'ecom') )
