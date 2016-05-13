@@ -23,7 +23,7 @@
         <div class="ccg-generator-progress-wrap">
             <progress value="{value.progress}" max="1" id="generator-progress-value">
                 <div class="progress-bar">
-                    <span><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>%</span>
+                    <span style="width: {value.progressPercentage}%;"><span class="generator-progress-value-print"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>%</span>
                 </div>
             </progress>
             <f:comment><div class="ccg-progress-indicator text-right" style="width:{value.progressPercentage}%"><span><span class="ccg-process-number"><f:format.number decimals="0">{value.progressPercentage}</f:format.number></span>%</span></div></f:comment>
