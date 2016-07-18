@@ -1,7 +1,6 @@
 <?php
 namespace S3b0\EcomSkuGenerator\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,46 +29,49 @@ namespace S3b0\EcomSkuGenerator\Domain\Repository;
 /**
  * The repository for Configurations
  */
-class ConfigurationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class ConfigurationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * @param array                                         $configuration
-	 * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findByConfigurationArray(array $configuration, \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup = NULL) {
-		$query = $this->createQuery();
-		$query->setQuerySettings($query->getQuerySettings()->setStoragePageIds([ $GLOBALS['TSFE']->id ]));
+    /**
+     * @param array $configuration
+     * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findByConfigurationArray(array $configuration, \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup = null) {
+        $query = $this->createQuery();
+        $query->setQuerySettings($query->getQuerySettings()->setStoragePageIds([$GLOBALS['TSFE']->id]));
 
-		$constraints = [ ];
-		foreach ( $configuration as $partGroupUid => $partGroupParts ) {
-			if ( $partGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup && $partGroupUid === $partGroup->getUid() )
-				continue;
-			foreach ( $partGroupParts as $part )
-				$constraints[] = $query->contains('parts', $part);
-		}
+        $constraints = [];
+        foreach ($configuration as $partGroupUid => $partGroupParts) {
+            if ($partGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup && $partGroupUid === $partGroup->getUid()) {
+                continue;
+            }
+            foreach ($partGroupParts as $part) {
+                $constraints[] = $query->contains('parts', $part);
+            }
+        }
 
-		return sizeof($constraints) ? $query->matching($query->logicalAnd($constraints))->execute() : $query->execute();
-	}
+        return sizeof($constraints) ? $query->matching($query->logicalAnd($constraints))->execute() : $query->execute();
+    }
 
-	/**
-	 * @param array                                         $configuration
-	 * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	public function findCompatiblePartsByConfigurationArray(array $configuration, \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup) {
-		$return = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    /**
+     * @param array $configuration
+     * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function findCompatiblePartsByConfigurationArray(array $configuration, \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup) {
+        $return = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 
-		if ( $configurations = $this->findByConfigurationArray($configuration, $partGroup) ) {
-			/** @var \S3b0\EcomSkuGenerator\Domain\Model\Configuration $configuration */
-			foreach ( $configurations as $configuration ) {
-				if ( $configuration->getParts() instanceof \Countable ) {
-					$return->addAll($configuration->getParts());
-				}
-			}
-		}
+        if ($configurations = $this->findByConfigurationArray($configuration, $partGroup)) {
+            /** @var \S3b0\EcomSkuGenerator\Domain\Model\Configuration $configuration */
+            foreach ($configurations as $configuration) {
+                if ($configuration->getParts() instanceof \Countable) {
+                    $return->addAll($configuration->getParts());
+                }
+            }
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
 }

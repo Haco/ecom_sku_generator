@@ -1,7 +1,6 @@
 <?php
 namespace S3b0\EcomSkuGenerator\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,4 +29,6 @@ namespace S3b0\EcomSkuGenerator\Domain\Repository;
 /**
  * The repository for Logs
  */
-class LogRepository extends \S3b0\EcomConfigCodeGenerator\Domain\Repository\LogRepository { }
+class LogRepository extends \S3b0\EcomConfigCodeGenerator\Domain\Repository\LogRepository
+{
+}

@@ -1,7 +1,6 @@
 <?php
 namespace S3b0\EcomSkuGenerator\Controller;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,107 +29,114 @@ namespace S3b0\EcomSkuGenerator\Controller;
 /**
  * GeneratorController
  */
-class GeneratorController extends \S3b0\EcomSkuGenerator\Controller\BaseController {
+class GeneratorController extends \S3b0\EcomSkuGenerator\Controller\BaseController
+{
 
-	/**
-	 * action index
-	 *
-	 * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
-	 * @return void
-	 */
-	public function indexAction(\S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup = NULL) {
-		$this->view->assign('value', $this->getIndexActionData(func_get_args()));
-	}
+    /**
+     * action index
+     *
+     * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
+     * @return void
+     */
+    public function indexAction(\S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup = null)
+    {
+        $this->view->assign('value', $this->getIndexActionData(func_get_args()));
+    }
 
-	/**
-	 * @param array $arguments
-	 * @return array
-	 */
-	public function getIndexActionData(array $arguments = [ ]) {
-		$checkIfPartGroupArgumentIsSet = $arguments[0] instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup;
-		// Get current configuration (Array: options=array(options)|packages=array(package => option(s)))
-		$configuration = $this->feSession->get('config') ?: [ ];
-		$partGroups = $this->initializePartGroups(
-			$this->contentObject->getSkuGeneratorPartGroups() ?: new \TYPO3\CMS\Extbase\Persistence\ObjectStorage(),
-			$configuration,
-			$currentPartGroup,
-			$progress
-		);
-		if ( $arguments[0] instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ) {
-			/** @var \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $currentPartGroup */
-			$currentPartGroup = $arguments[0];
-		}
-		if ( $currentPartGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ) {
-			$currentPartGroup->setCurrent(TRUE);
-			$this->initializeParts(
-				$currentPartGroup->getParts(),
-				$currentPartGroup,
-				$configuration
-			);
-		}
+    /**
+     * @param array $arguments
+     * @return array
+     */
+    public function getIndexActionData(array $arguments = [])
+    {
+        $checkIfPartGroupArgumentIsSet = $arguments[0] instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup;
+        // Get current configuration (Array: options=array(options)|packages=array(package => option(s)))
+        $configuration = $this->feSession->get('config') ?: [];
+        $partGroups = $this->initializePartGroups(
+            $this->contentObject->getSkuGeneratorPartGroups() ?: new \TYPO3\CMS\Extbase\Persistence\ObjectStorage(),
+            $configuration,
+            $currentPartGroup,
+            $progress
+        );
+        if ($arguments[0] instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup) {
+            /** @var \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $currentPartGroup */
+            $currentPartGroup = $arguments[0];
+        }
+        if ($currentPartGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup) {
+            $currentPartGroup->setCurrent(true);
+            $this->initializeParts(
+                $currentPartGroup->getParts(),
+                $currentPartGroup,
+                $configuration
+            );
+        }
 
-		$jsonData = [
-			'title' => '',
-			'instructions' => $this->contentObject->getBodytext(),
-			'configuration' => $configuration,
-			'progress' => $progress,
-			'progressPercentage' => $progress * 100,
-			'partGroups' => $partGroups,
-			'currentPartGroup' => $currentPartGroup,
-			'nextPartGroup' => $currentPartGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup && $currentPartGroup->getNext() instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ? $currentPartGroup->getNext()->getUid() : 0,
-			'showResultingConfiguration' => $progress === 1 && !$checkIfPartGroupArgumentIsSet
-		];
+        $jsonData = [
+            'title' => '',
+            'instructions' => $this->contentObject->getBodytext(),
+            'configuration' => $configuration,
+            'progress' => $progress,
+            'progressPercentage' => $progress * 100,
+            'partGroups' => $partGroups,
+            'currentPartGroup' => $currentPartGroup,
+            'nextPartGroup' => $currentPartGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup && $currentPartGroup->getNext() instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ? $currentPartGroup->getNext()->getUid() : 0,
+            'showResultingConfiguration' => $progress === 1 && !$checkIfPartGroupArgumentIsSet
+        ];
 
-		/** GET RESULT */
-		if ( $progress === 1 && is_array($configuration) && sizeof($configuration) ) {
-			/** @var \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $configurations */
-			$configurations = $this->configurationRepository->findByConfigurationArray($configuration);
-			if ( $configurations instanceof \Countable && $configurations->count() === 1 ) {
-				$jsonData['title'] = $configurations->getFirst()->getTitle();
-				if ( $configurations->getFirst()->isLiableToPayCosts() ) {
-					$configurations->getFirst()->setCurrency($this->currency);
-					$this->contentObject->setConfigurationPrice($configurations->getFirst()->getNoCurrencyPricing($this->currency));
-				}
-			}
-			$jsonData['configurationCode'] = $this->getSku($configurations, $configuration);
-		}
+        /** GET RESULT */
+        if ($progress === 1 && is_array($configuration) && sizeof($configuration)) {
+            /** @var \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $configurations */
+            $configurations = $this->configurationRepository->findByConfigurationArray($configuration);
+            if ($configurations instanceof \Countable && $configurations->count() === 1) {
+                $jsonData['title'] = $configurations->getFirst()->getTitle();
+                if ($configurations->getFirst()->isLiableToPayCosts()) {
+                    $configurations->getFirst()->setCurrency($this->currency);
+                    $this->contentObject->setConfigurationPrice($configurations->getFirst()->getNoCurrencyPricing($this->currency));
+                }
+            }
+            $jsonData['configurationCode'] = $this->getSku($configurations, $configuration);
+        }
 
-		if ( $this->request->getControllerName() === 'AjaxRequest' ) {
-			$jsonData['selectPartsHTML'] = $currentPartGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ? $this->getPartSelectorHTML($currentPartGroup->getParts()) : NULL;
-			$jsonData['selectPartGroupsHTML'] = $this->getPartGroupSelectorHTML($partGroups);
-		}
+        if ($this->request->getControllerName() === 'AjaxRequest') {
+            $jsonData['selectPartsHTML'] = $currentPartGroup instanceof \S3b0\EcomSkuGenerator\Domain\Model\PartGroup ? $this->getPartSelectorHTML($currentPartGroup->getParts()) : null;
+            $jsonData['selectPartGroupsHTML'] = $this->getPartGroupSelectorHTML($partGroups);
+        }
 
-		if ( $this->pricing ) {
-			$jsonData['configurationPrice'] = $this->contentObject->getConfigurationPriceFormatted();
-		}
+        if ($this->pricing) {
+            $jsonData['configurationPrice'] = $this->contentObject->getConfigurationPriceFormatted();
+        }
 
-		return $jsonData;
-	}
+        return $jsonData;
+    }
 
-	/**
-	 * action currencySelect
-	 *
-	 * @return void
-	 */
-	public function currencySelectAction() {
-		$this->view->assign('currencies', $this->currencyRepository->findAll());
-	}
+    /**
+     * action currencySelect
+     *
+     * @return void
+     */
+    public function currencySelectAction()
+    {
+        $this->view->assign('currencies', $this->currencyRepository->findAll());
+    }
 
-	/**
-	 * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
-	 *
-	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
-	 */
-	public function setCurrencyAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency) {
-		$this->feSession->store('currency', $currency->getUid(), 'ecom');
-		$this->redirect('index');
-	}
+    /**
+     * @param \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    public function setCurrencyAction(\S3b0\EcomConfigCodeGenerator\Domain\Model\Currency $currency)
+    {
+        $this->feSession->store('currency', $currency->getUid(), 'ecom');
+        $this->redirect('index');
+    }
 
-	/**
-	 * action reset
-	 *
-	 * @return void
-	 */
-	public function resetAction() { }
+    /**
+     * action reset
+     *
+     * @return void
+     */
+    public function resetAction()
+    {
+    }
 
 }

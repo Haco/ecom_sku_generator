@@ -1,7 +1,6 @@
 <?php
 namespace S3b0\EcomSkuGenerator\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,74 +29,81 @@ namespace S3b0\EcomSkuGenerator\Domain\Model;
 /**
  * Log model
  */
-class Log extends \S3b0\EcomConfigCodeGenerator\Domain\Model\Log {
+class Log extends \S3b0\EcomConfigCodeGenerator\Domain\Model\Log
+{
 
-	/**
-	 * Configured parts
-	 *
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomSkuGenerator\Domain\Model\Part>
-	 */
-	protected $configuredPartsSku = NULL;
+    /**
+     * Configured parts
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomSkuGenerator\Domain\Model\Part>
+     */
+    protected $configuredPartsSku = null;
 
-	/**
-	 * __construct
-	 */
-	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
+    /**
+     * __construct
+     */
+    public function __construct()
+    {
+        //Do not remove the next line: It would break the functionality
+        $this->initStorageObjects();
+    }
 
-	/**
-	 * Initializes all ObjectStorage properties
-	 * Do not modify this method!
-	 * It will be rewritten on each save in the extension builder
-	 * You may modify the constructor of this class instead
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		$this->configuredParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-		$this->configuredPartsSku = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
-	}
+    /**
+     * Initializes all ObjectStorage properties
+     * Do not modify this method!
+     * It will be rewritten on each save in the extension builder
+     * You may modify the constructor of this class instead
+     *
+     * @return void
+     */
+    protected function initStorageObjects()
+    {
+        $this->configuredParts = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->configuredPartsSku = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
 
-	/**
-	 * Adds a configured Part
-	 *
-	 * @param \S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSku
-	 * @return void
-	 */
-	public function addConfiguredPartSku(\S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSku) {
-		$this->configuredPartsSku->attach($configuredPartSku);
-	}
+    /**
+     * Adds a configured Part
+     *
+     * @param \S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSku
+     * @return void
+     */
+    public function addConfiguredPartSku(\S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSku)
+    {
+        $this->configuredPartsSku->attach($configuredPartSku);
+    }
 
-	/**
-	 * Removes a configured Part
-	 *
-	 * @param \S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSkuToRemove The Modal to be removed
-	 * @return void
-	 */
-	public function removeConfiguredPartSku(\S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSkuToRemove) {
-		$this->configuredPartsSku->detach($configuredPartSkuToRemove);
-	}
+    /**
+     * Removes a configured Part
+     *
+     * @param \S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSkuToRemove The Modal to be removed
+     * @return void
+     */
+    public function removeConfiguredPartSku(\S3b0\EcomSkuGenerator\Domain\Model\Part $configuredPartSkuToRemove)
+    {
+        $this->configuredPartsSku->detach($configuredPartSkuToRemove);
+    }
 
-	/**
-	 * Returns the configuredPartsSku
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomSkuGenerator\Domain\Model\Part> $configuredPartsSku
-	 */
-	public function getConfiguredPartsSku() {
-		return $this->configuredPartsSku;
-	}
+    /**
+     * Returns the configuredPartsSku
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomSkuGenerator\Domain\Model\Part> $configuredPartsSku
+     */
+    public function getConfiguredPartsSku()
+    {
+        return $this->configuredPartsSku;
+    }
 
-	/**
-	 * Sets the configuredPartsSku
-	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomSkuGenerator\Domain\Model\Part> $configuredPartsSku
-	 * @return \S3b0\EcomSkuGenerator\Domain\Model\Log Allow chaining of methods
-	 */
-	public function setConfiguredPartsSku(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $configuredPartsSku = NULL) {
-		$this->configuredPartsSku = $configuredPartsSku;
-		return $this;
-	}
+    /**
+     * Sets the configuredPartsSku
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomSkuGenerator\Domain\Model\Part> $configuredPartsSku
+     * @return \S3b0\EcomSkuGenerator\Domain\Model\Log Allow chaining of methods
+     */
+    public function setConfiguredPartsSku(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $configuredPartsSku = null)
+    {
+        $this->configuredPartsSku = $configuredPartsSku;
+        return $this;
+    }
 
 }

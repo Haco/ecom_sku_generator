@@ -1,7 +1,6 @@
 <?php
 namespace S3b0\EcomSkuGenerator\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -30,20 +29,22 @@ namespace S3b0\EcomSkuGenerator\Domain\Repository;
 /**
  * The repository for Parts
  */
-class PartRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class PartRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
-	/**
-	 * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
-	 *
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findByPartGroup(\S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup) {
-		$query = $this->createQuery();
-		$query->setQuerySettings($query->getQuerySettings()->setStoragePageIds([ $GLOBALS['TSFE']->id ]));
+    /**
+     * @param \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup
+     *
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findByPartGroup(\S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup)
+    {
+        $query = $this->createQuery();
+        $query->setQuerySettings($query->getQuerySettings()->setStoragePageIds([$GLOBALS['TSFE']->id]));
 
-		return $query->matching(
-			$query->equals('part_group', $partGroup)
-		)->execute();
-	}
+        return $query->matching(
+            $query->equals('part_group', $partGroup)
+        )->execute();
+    }
 
 }
