@@ -45,8 +45,7 @@ plugin.tx_ecomskugenerator {
 }
 
 page.includeCSSLibs {
-    ccg = EXT:ecom_config_code_generator/Resources/Public/CSS/app.css
-    ccg.import = 1
+    ccg = EXT:ecom_config_code_generator/Resources/Public/CSS/app.min.css
 }
 
 EcomSkuGeneratorAjaxRequest = PAGE
