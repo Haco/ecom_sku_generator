@@ -33,6 +33,13 @@ class Log extends \S3b0\EcomConfigCodeGenerator\Domain\Model\Log
 {
 
     /**
+     * Incompatible Config (if no article found with selected parts)
+     *
+     * @var boolean
+     */
+    protected $incompatibleConfig = '';
+
+    /**
      * Configured parts
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomSkuGenerator\Domain\Model\Part>
@@ -103,6 +110,30 @@ class Log extends \S3b0\EcomConfigCodeGenerator\Domain\Model\Log
     public function setConfiguredPartsSku(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $configuredPartsSku = null)
     {
         $this->configuredPartsSku = $configuredPartsSku;
+        return $this;
+    }
+
+    /**
+     * Returns the incompatibleConfig
+     *
+     * @return boolean $incompatibleConfig
+     */
+    public function getIncompatibleConfig()
+    {
+        return $this->incompatibleConfig;
+    }
+
+    /**
+     * Sets the incompatibleConfig
+     *
+     * @param boolean $incompatibleConfig
+     *
+     * @return \S3b0\EcomConfigCodeGenerator\Domain\Model\Log Allow chaining of methods
+     */
+    public function setIncompatibleConfig($incompatibleConfig)
+    {
+        $this->incompatibleConfig= $incompatibleConfig;
+
         return $this;
     }
 

@@ -75,6 +75,11 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $skuGeneratorPricingEnabled = false;
 
     /**
+     * @var bool
+     */
+    protected $skuGeneratorAllowCustomConfig = false;
+
+    /**
      * @var float
      */
     protected $basePrice = 0.0;
@@ -276,6 +281,23 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isPricingEnabled()
     {
         return $this->skuGeneratorPricingEnabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSkuGeneratorAllowCustomConfig()
+    {
+        return $this->skuGeneratorAllowCustomConfig;
+    }
+
+    /**
+     * @var bool $skuGeneratorAllowCustomConfig
+     * @return void
+     */
+    public function setSkuGeneratorAllowCustomConfig($skuGeneratorAllowCustomConfig)
+    {
+        $this->skuGeneratorAllowCustomConfig = $skuGeneratorAllowCustomConfig;
     }
 
     /**

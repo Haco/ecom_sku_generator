@@ -152,7 +152,7 @@ function genericAjaxRequest(pageUid, language, pageType, action, arguments, onSu
 }
 
 /**
- * Handle result
+ * Handle the successful ajax request when a part got selected and handle final result when the end is reached
  * @param result
  */
 function onSuccessFunction(result) {
@@ -178,6 +178,7 @@ function onSuccessFunction(result) {
         $('#generator-result-canvas .generator-result h3.generator-result-label').first().html(result.title);
         $('#generator-result-canvas .generator-result small.generator-result-code').first().html(result.configurationCode['code']);
         $('#generator-summary-table').html(result.configurationCode['summaryTable']);
+        $('#generator-min-order-quantity').html(result.configurationCode['minOrderQuantityHtml']);
     } else {
         $('#generator-result-canvas').hide();
         $('#generator-part-group-select-part-index').show().promise().done(function () {
@@ -289,6 +290,10 @@ function addInfoTrigger() {
  */
 function assignListeners() {
     ccgUpdatePart();
+
+    // Init BS Tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+
     addInfoTrigger();
     ccgIndex('.generator-part-group-select');
 }

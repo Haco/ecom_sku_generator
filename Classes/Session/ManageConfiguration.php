@@ -93,6 +93,7 @@ class ManageConfiguration
     public static function resetConfiguration(\S3b0\EcomSkuGenerator\Controller\BaseController $controller)
     {
         $controller->feSession->store('config', []);
+        $controller->feSession->delete('min-order-quantity');
     }
 
 }

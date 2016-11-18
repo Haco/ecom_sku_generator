@@ -25,6 +25,8 @@ namespace S3b0\EcomSkuGenerator\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use S3b0\EcomSkuGenerator\Domain\Model\Part;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 
 /**
  * The repository for Configurations
@@ -50,8 +52,29 @@ class ConfigurationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $constraints[] = $query->contains('parts', $part);
             }
         }
-
         return sizeof($constraints) ? $query->matching($query->logicalAnd($constraints))->execute() : $query->execute();
+    }
+
+    /**
+     * Check if parts are available in ANY configuration.
+     * Returns an array of PartUids that are definitely available in ANY configuration
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $parts
+     * @return array
+     */
+    public function getAvailablePartsInAnyConfiguration($parts) {
+        $query = $this->createQuery();
+        $query->setQuerySettings($query->getQuerySettings()->setStoragePageIds([$GLOBALS['TSFE']->id]));
+        $availableParts = [];
+
+        foreach ($parts as $part) {
+            $result = $query->matching($query->contains('parts', $part))->execute();
+            if (count($result) && $result instanceof QueryResultInterface) {
+                $availableParts[] = $part->getUid();
+            }
+        }
+
+        return $availableParts;
     }
 
     /**

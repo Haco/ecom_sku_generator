@@ -25,6 +25,9 @@ namespace S3b0\EcomSkuGenerator\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use S3b0\EcomSkuGenerator\Domain\Model\PartGroup;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * GeneratorController
@@ -83,16 +86,25 @@ class GeneratorController extends \S3b0\EcomSkuGenerator\Controller\BaseControll
             'showResultingConfiguration' => $progress === 1 && !$checkIfPartGroupArgumentIsSet
         ];
 
-        /** GET RESULT */
+        /** LAST & FINAL RESULT STEP */
+        /** Gets final result data when end of configurator reached */
         if ($progress === 1 && is_array($configuration) && sizeof($configuration)) {
+            $jsonData['noConfigurationFound'] = false;
             /** @var \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $configurations */
             $configurations = $this->configurationRepository->findByConfigurationArray($configuration);
+            /** Finds the final configuration (SKU) */
             if ($configurations instanceof \Countable && $configurations->count() === 1) {
                 $jsonData['title'] = $configurations->getFirst()->getTitle();
                 if ($configurations->getFirst()->isLiableToPayCosts()) {
                     $configurations->getFirst()->setCurrency($this->currency);
                     $this->contentObject->setConfigurationPrice($configurations->getFirst()->getNoCurrencyPricing($this->currency));
                 }
+            } else {
+                /**
+                 * No suitable article (SKU) with current configuration found.
+                 **/
+                $jsonData['title'] = LocalizationUtility::translate('noArticleFound','ecom_sku_generator') . '.';
+                $jsonData['noConfigurationFound'] = true;
             }
             $jsonData['configurationCode'] = $this->getSku($configurations, $configuration);
         }

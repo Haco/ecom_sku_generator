@@ -32,14 +32,14 @@ return [
             'endtime' => 'endtime',
             'fe_group' => 'fe_group'
         ],
-        'searchFields' => 'title,image,hint,pricing',
+        'searchFields' => 'title,image,hint,min_order_quantity,incompatible_note,pricing',
         'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('ecom_config_code_generator') . 'Resources/Public/Icons/tx_ecomconfigcodegenerator_domain_model_part.png'
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, title, image, hint, pricing'
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, title, image, hint, incompatible_note, min_order_quantity, pricing'
     ],
     'types' => [
-        '1' => ['showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, title, part_group, --div--;{$translate}tabs.referral, image, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;wizards[t3editorHtml], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access"]
+        '1' => ['showitem' => "sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, title, min_order_quantity, part_group, --div--;{$translate}tabs.referral, image, --div--;{$translate}tabs.pricing, pricing, --div--;LLL:EXT:cms/locallang_tca.xlf:pages.tabs.extended, hint;;;wizards[t3editorHtml], incompatible_note;;;wizards[t3editorHtml], --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:cms/locallang_tca.xlf:pages.palettes.access;access"]
     ],
     'palettes' => [
         '1' => [
@@ -216,6 +216,37 @@ return [
                 ]
             ]
         ],
+        'incompatible_note' => [
+            'l10n_mode' => 'prefixLangTitle',
+            'exclude' => 0,
+            'label' => 'Custom Incompatible Message (if Part is not compatible with current config)',
+            'config' => [
+                'type' => 'text',
+                'cols' => 100,
+                'rows' => 10,
+                'eval' => 'trim',
+                'wizards' => [
+                    't3editorHtml' => [
+                        'enableByTypeConfig' => 1,
+                        'type' => 'userFunc',
+                        'userFunc' => 'TYPO3\\CMS\\T3editor\\FormWizard->main',
+                        'params' => [
+                            'format' => 'html'
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        'min_order_quantity' => [
+            'l10n_mode' => 'exclude',
+            'exclude' => 0,
+            'label' => 'Minimum Order Quanity (MOQ)',
+            'config' => [
+                'type' => 'input',
+                'size' => 5,
+                'eval' => 'trim,int',
+            ]
+        ],
         'pricing' => [
             'l10n_mode' => 'exclude',
             'exclude' => 1,
@@ -226,7 +257,7 @@ return [
                 'foreign_field' => 'sku_part',
                 'maxitems' => $maxItemsPricing,
                 'appearance' => [
-                    'collapseAll' => 0,
+                    'collapseAll' => 1,
                     'levelLinksPosition' => 'bottom',
                     'newRecordLinkAddTitle' => 0,
                     'newRecordLinkTitle' => "{$translate}tx_ecomconfigcodegenerator_domain_model_part.pricing.inlineElementAddTitle"

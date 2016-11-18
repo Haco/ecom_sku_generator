@@ -17,6 +17,15 @@ $tempColumns = [
             'maxitems' => 9999,
             'readOnly' => 1
         ]
+    ],
+
+    'incompatible_config' => [
+        'displayCond' => 'FIELD:configured_parts:REQ:FALSE',
+        'label' => 'Incompatible Configuration (No Article/SKU found for selected parts)',
+        'config' => [
+            'type' => 'check',
+            'readOnly' => 1
+        ],
     ]
 
 ];
@@ -25,6 +34,7 @@ $tempColumns = [
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_ecomconfigcodegenerator_domain_model_log', $tempColumns, true);
 // Add fields to types
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_ecomconfigcodegenerator_domain_model_log', 'configured_parts_sku', '', 'after:quantity');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('tx_ecomconfigcodegenerator_domain_model_log', 'incompatible_config', '', 'before:configuration');
 
 // Extend display conditions
 $GLOBALS['TCA']['tx_ecomconfigcodegenerator_domain_model_log']['columns']['configured_parts']['displayCond'] = 'FIELD:configured_parts_sku:REQ:FALSE';

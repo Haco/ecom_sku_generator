@@ -60,12 +60,26 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $hint = '';
 
     /**
+     * Incompatible Note
+     *
+     * @var string
+     */
+    protected $incompatibleNote = '';
+
+    /**
      * Part pricing
      *
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\S3b0\EcomConfigCodeGenerator\Domain\Model\Price>
      * @cascade remove
      */
     public $pricing = null;
+
+    /**
+     * Part min order quantity
+     *
+     * @var integer
+     */
+    protected $minOrderQuantity = 0;
 
     /**
      * @var string
@@ -193,6 +207,48 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setHint($hint)
     {
         $this->hint = $hint;
+    }
+
+    /**
+     * Returns the incompatibleNote
+     *
+     * @return string $incompatibleNote
+     */
+    public function getIncompatibleNote()
+    {
+        return $this->incompatibleNote;
+    }
+
+    /**
+     * Sets the incompatibleNote
+     *
+     * @param string $incompatibleNote
+     * @return void
+     */
+    public function setIncompatibleNote($incompatibleNote)
+    {
+        $this->incompatibleNote = $incompatibleNote;
+    }
+
+    /**
+     * Returns the minOrderQuantity
+     *
+     * @return integer $minOrderQuantity
+     */
+    public function getMinOrderQuantity()
+    {
+        return $this->minOrderQuantity;
+    }
+
+    /**
+     * Sets the minOrderQuantity
+     *
+     * @param integer $minOrderQuantity
+     * @return void
+     */
+    public function setMinOrderQuantity($minOrderQuantity)
+    {
+        $this->minOrderQuantity = $minOrderQuantity;
     }
 
     /**
@@ -401,10 +457,6 @@ class Part extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isInConflictWithSelectedParts()
     {
-        /** When called by Fluid alter title. Works like a charm! */
-        if (!$this->compatibleToSelection) {
-            $this->title .= \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('appendIncompatibleHint', 'ecom_sku_generator') ?: ' • Incompatible with current configuration';
-        }
         return !$this->compatibleToSelection;
     }
 

@@ -15,6 +15,12 @@
 			<trans-unit id="pricing.description">
 				<source>Part pricing</source>
 			</trans-unit>
+			<trans-unit id="incompatible_note.description">
+                <source>Set a custom incompatible message that appears when this part is not compatible with the current configuration</source>
+            </trans-unit>
+            <trans-unit id="min_order_quantity.description">
+                <source>Set minimum order quantity for this part</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

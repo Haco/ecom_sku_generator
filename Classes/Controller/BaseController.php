@@ -133,6 +133,11 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
     protected $pricing = false;
 
     /**
+     * @var bool Allows custom configuration and ignores incompatible parts.
+     */
+    protected $allowCustomConfiguration = false;
+
+    /**
      * @var \S3b0\EcomConfigCodeGenerator\Domain\Model\Currency
      */
     protected $currency = null;
@@ -166,12 +171,14 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         }
 
         $this->pricing = $this->contentObject->isPricingEnabled() && $GLOBALS['TSFE']->loginUser && \Ecom\EcomToolbox\Security\Frontend::checkForUserRoles($this->settings['accessPricing']);
+        $this->allowCustomConfiguration = $this->contentObject->getSkuGeneratorAllowCustomConfig();
 
         // Frontend-Session
         $this->feSession->setStorageKey(Setup::getSessionStorageKey($this->contentObject));
         // On reset destroy config session data
         if ($this->request->getControllerName() === 'Generator' && $this->request->getControllerActionName() === 'reset') {
             $this->feSession->delete('config');
+            $this->feSession->delete('min-order-quantity');
             $resetUri = $this->uriBuilder->reset()->setArguments(['L' => $GLOBALS['TSFE']->sys_language_uid])->setUseCacheHash(false)->uriFor('index', array(), 'Generator');
             $this->redirectToUri($resetUri);
         }
@@ -203,6 +210,7 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         $this->view->assignMultiple([
             'contentObject' => $this->contentObject,
             'pricingEnabled' => $this->pricing,
+            'allowCustomConfig' => $this->allowCustomConfiguration,
             'jsData' => [
                 'pageId' => $GLOBALS['TSFE']->id,
                 'controller' => $this->request->getControllerName(),
@@ -342,6 +350,10 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
         \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup,
         array $configuration
     ) {
+        /**
+         * Handling of compatible or incompatible Parts
+         * When there are already selected parts and when not
+         */
         /** @var \TYPO3\CMS\Extbase\Persistence\QueryResultInterface $configurations */
         if (sizeof($configuration) && ($compatibleParts = $this->configurationRepository->findCompatiblePartsByConfigurationArray($configuration, $partGroup))) {
             /** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
@@ -349,11 +361,19 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                 $part->setCompatibleToSelection(true);
             }
         } else {
+            /** Happens when no part is selected at all. User is at the first step of configuration */
             /** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
+            $availableParts = $this->configurationRepository->getAvailablePartsInAnyConfiguration($parts);
             foreach ($parts as $part) {
-                $part->setCompatibleToSelection(true);
+                if (in_array($part->getUid(), $availableParts)) {
+                    $part->setCompatibleToSelection(true);
+                } else {
+                    $part->setCompatibleToSelection(false);
+                }
             }
         }
+
+
         /** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
         foreach ($parts as $part) {
             $part->setCurrency($this->currency);
@@ -367,33 +387,58 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
      */
     protected function getSku($configurations, $configuration)
     {
+        $minOrderQuantityHtml = '';
         $summaryTableRows = [];
         $summaryTableMailRows = [];
         $code = [];
         $blankCode = [];
-        if ($configurations instanceof \Countable && $configurations->count() === 1) {
-            /** @var \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup */
-            foreach ($this->contentObject->getSkuGeneratorPartGroups() as $partGroup) {
-                $parts = $configuration[$partGroup->getUid()];
-                ksort($parts); // Order by sorting
-                $partList = [];
-                foreach ($parts as $partUid) {
-                    /** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
-                    $part = $this->partRepository->findByUid($partUid);
-                    $partList[] = $part->getTitle();
+        $minOrderQuantity = 0;
+
+        /** @var \S3b0\EcomSkuGenerator\Domain\Model\PartGroup $partGroup */
+        foreach ($this->contentObject->getSkuGeneratorPartGroups() as $partGroup) {
+            $parts = $configuration[$partGroup->getUid()];
+            ksort($parts); // Order by sorting
+            $partList = [];
+            foreach ($parts as $partUid) {
+                /** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
+                $part = $this->partRepository->findByUid($partUid);
+                $partTitle = $part->getTitle();
+                if ($part->getMinOrderQuantity()) {
+                    $partTitle .= ' <small class="text-primary">(MOQ: ' . (int)$part->getMinOrderQuantity() . ')</small>';
                 }
-                $summaryTableRows[] = ("
+                $partList[] = $partTitle;
+                /** Find & set global min order quantity for current configuration */
+                if ($part->getMinOrderQuantity()) {
+                    $minOrderQuantity = ($part->getMinOrderQuantity() > $minOrderQuantity) ? $part->getMinOrderQuantity() : $minOrderQuantity;
+                }
+            }
+            $summaryTableRows[] = ("
 					<td>{$partGroup->getStepIndicator()}</td>
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
-					<td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-edit\"></i></a></td>
+					<td><a data-part-group=\"{$partGroup->getUid()}\" class=\"generator-part-group-select\"><i class=\"fa fa-pencil\"></i></a></td>
 				") . ($this->pricing ? "<td style=\"text-align:right\">" . \S3b0\EcomSkuGenerator\Utility\PriceHandler::getPriceInCurrency($partGroup->getPricingNumeric(),
-                            $this->currency, true) . "</td>" : "");
-                $summaryTableMailRows[] = ("
+                        $this->currency, true) . "</td>" : "");
+
+            $summaryTableMailRows[] = ("
 					<td>{$partGroup->getTitle()}</td>
 					<td>" . implode(', ', $partList) . "</td>
 				");
-            }
+        }
+
+        // Prepare Minimum Order Quantity for Result & Request
+        if ($minOrderQuantity) {
+            $this->feSession->store('min-order-quantity', $minOrderQuantity);
+            $minOrderQuantityHtml = '
+            <div class="text-center sku-generator-min-order-quantity-result">
+                <span class="label label-primary">' . LocalizationUtility::translate('minOrderQuantity', 'ecom_sku_generator') . ': <strong>' . $minOrderQuantity . '</strong></span>
+            </div>';
+        } else {
+            $this->feSession->delete('min-order-quantity');
+        }
+
+        /** If Configuration/SKU is found */
+        if ($configurations instanceof \Countable && $configurations->count() === 1) {
             ksort($code);      // Order code either incremental or by place in code
             ksort($blankCode); // Order code either incremental or by place in code
 
@@ -401,20 +446,24 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                 'title' => $configurations->getFirst()->getTitle(),
                 'code' => $configurations->getFirst()->getSku(),
                 'blankCode' => $configurations->getFirst()->getSku(),
+                'minOrderQuantityHtml' => $this->sanitize_output($minOrderQuantityHtml),
+                'summaryTable' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>',
+                        $summaryTableRows) . '</tr></table>'),
+                'summaryTableMail' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>',
+                        $summaryTableMailRows) . '</tr></table>')
+            ];
+        } else {
+            return [
+                'title' => $this->contentObject->getHeader() . ' ' . LocalizationUtility::translate('individualInquiry', 'ecom_sku_generator'),
+                'minOrderQuantityHtml' => $this->sanitize_output($minOrderQuantityHtml),
+                'code' => LocalizationUtility::translate('individualInquiry', 'ecom_sku_generator'),
+                'blankCode' => LocalizationUtility::translate('noArticleFound','ecom_sku_generator') . '.',
                 'summaryTable' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>',
                         $summaryTableRows) . '</tr></table>'),
                 'summaryTableMail' => $this->sanitize_output('<table><tr>' . implode('</tr><tr>',
                         $summaryTableMailRows) . '</tr></table>')
             ];
         }
-
-        return [
-            'title' => '',
-            'code' => '',
-            'blankCode' => '',
-            'summaryTable' => '',
-            'summaryTableMail' => ''
-        ];
     }
 
     /**
@@ -444,10 +493,18 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
             $log->setQuantity(1);
         }
         $log->setSessionId($GLOBALS['TSFE']->fe_user->id)
-            ->setConfiguration($configurations->getFirst()->getSku())
             ->maskIpAddress($ipLength)
             ->setPricing($this->contentObject->getConfigurationPriceFormatted())
             ->setPid(0);
+
+        /** If Configuration/SKU is found add it to log, else leave empty and set to "no articles found" */
+        if ($configurations instanceof \Countable && $configurations->count() === 1) {
+            $log->setConfiguration($configurations->getFirst()->getSku());
+        } else {
+            $log->setConfiguration($this->contentObject->getHeader());
+            $log->setIncompatibleConfig(true);
+        }
+
         if ($GLOBALS['TSFE']->loginUser) {
             /** @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $feUser */
             $feUser = $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']);

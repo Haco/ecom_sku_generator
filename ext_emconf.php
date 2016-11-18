@@ -21,7 +21,7 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => '1',
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '1.0.53',
+    'version' => '1.0.6',
     'constraints' => [
         'depends' => [
             'cms' => '',
@@ -30,7 +30,7 @@ $EM_CONF[$_EXTKEY] = [
             'ecom_toolbox' => '2.0.5',
             'powermail' => '',
             'ecom_product_tools' => '7.6.8',
-            'ecom_config_code_generator' => '1.3.5',
+            'ecom_config_code_generator' => '1.3.6',
         ],
         'conflicts' => [
         ],

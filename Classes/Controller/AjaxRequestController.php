@@ -88,7 +88,8 @@ class AjaxRequestController extends \S3b0\EcomSkuGenerator\Controller\GeneratorC
     }
 
     /**
-     * action updatePart
+     * UpdatePart Action
+     * When selecting parts in the configurator
      *
      * @param \S3b0\EcomSkuGenerator\Domain\Model\Part|NULL $part
      * @param boolean $unset
@@ -97,6 +98,7 @@ class AjaxRequestController extends \S3b0\EcomSkuGenerator\Controller\GeneratorC
     public function updatePartAction(\S3b0\EcomSkuGenerator\Domain\Model\Part $part = null, $unset = false)
     {
         $configuration = $this->feSession->get('config') ?: [];
+
         // Manage Session data
         if ($unset === false) {
             \S3b0\EcomSkuGenerator\Session\ManageConfiguration::addPartToConfiguration($this, $part, $configuration);
@@ -167,7 +169,8 @@ class AjaxRequestController extends \S3b0\EcomSkuGenerator\Controller\GeneratorC
         $view->setPartialRootPaths($partialRootPaths);
         $view->assignMultiple([
             'parts' => $parts,
-            'pricingEnabled' => $this->pricing
+            'pricingEnabled' => $this->pricing,
+            'allowCustomConfig' => $this->allowCustomConfiguration
         ]);
         $view->setFormat('html');
 

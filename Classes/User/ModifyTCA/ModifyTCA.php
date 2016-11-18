@@ -102,7 +102,7 @@ class ModifyTCA
                                     </span>
                                 </span>
                             </span>
-                            <select id="' . $fieldId . '" name="' . $PA['itemFormElName'] . '[' . $iterator . ']" data-formengine-validation-rules="[{\'type\':\'select\',\'minItems\':1,\'maxItems\':1}]" class="form-control form-control-adapt">' . $options . '</select>
+                            <select id="' . $fieldId . '" name="' . $PA['itemFormElName'] . '[' . $iterator . ']" class="form-control form-control-adapt">' . $options . '</select>
                         </div>
                     </div>
                 ');

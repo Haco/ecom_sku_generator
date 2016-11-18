@@ -46,7 +46,8 @@ CREATE TABLE tt_content (
 	sku_generator_part_groups int(11) unsigned DEFAULT '0' NOT NULL,
 	sku_generator_configurations int(11) unsigned DEFAULT '0' NOT NULL,
 	sku_generator_pricing int(11) unsigned DEFAULT '0' NOT NULL,
-	sku_generator_pricing_enabled tinyint(1) unsigned DEFAULT '0' NOT NULL
+	sku_generator_pricing_enabled tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	sku_generator_allow_custom_config tinyint(1) unsigned DEFAULT '0' NOT NULL
 
 );
 
@@ -112,7 +113,9 @@ CREATE TABLE tx_ecomskugenerator_domain_model_part (
 	title varchar(255) DEFAULT '' NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
 	hint text NOT NULL,
+	incompatible_note text NOT NULL,
 	pricing int(11) unsigned DEFAULT '0' NOT NULL,
+	min_order_quantity int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -201,6 +204,7 @@ CREATE TABLE tx_ecomconfigcodegenerator_domain_model_price (
 #
 CREATE TABLE tx_ecomconfigcodegenerator_domain_model_log (
 
+  incompatible_config tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	configured_parts_sku text
 
 );

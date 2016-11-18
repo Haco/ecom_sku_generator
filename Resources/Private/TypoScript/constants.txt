@@ -39,7 +39,7 @@ plugin.tx_ecomskugenerator {
             senderName = ecom instruments GmbH
             # cat=plugin.tx_ecomskugenerator//general; type=string; label=E-Mail carbon copy receivers:Split by comma if multiple
             carbonCopy = marketing@ecom-ex.com ecom Marketing,info.us@ecom-ex.com ecom USA
-            #carbonCopy =
+            #carbonCopy = nicolas.scheidler@ecom-ex.com
             # cat=plugin.tx_ecomskugenerator//general; type=int+; label=Content object (text) for confirmation page [tt_content]
             confirmationMessage = 4821
         }

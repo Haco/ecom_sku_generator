@@ -90,6 +90,14 @@ $tempColumns = [
         'config' => [
             'type' => 'check',
         ]
+    ],
+    'sku_generator_allow_custom_config' => [
+        'l10n_mode' => 'exclude',
+        'exclude' => 1,
+        'label' => 'Allow the selection of incompatible parts (User can send a custom request without Art. No.)',
+        'config' => [
+            'type' => 'check',
+        ]
     ]
 ];
 
@@ -97,6 +105,6 @@ $tempColumns = [
 
 $GLOBALS['TCA']['tt_content']['ctrl']['requestUpdate'] .= ',sku_generator_pricing_enabled';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['ecomskugenerator_generator'] = ("
-	sku_generator_configurations, sku_generator_part_groups, sku_generator_pricing_enabled, sku_generator_pricing,
+	sku_generator_configurations, sku_generator_part_groups, sku_generator_allow_custom_config, sku_generator_pricing_enabled, sku_generator_pricing,
 	--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.extended, bodytext;SKU Instructions;;richtext:rte_transform[flag=rte_enabled|mode=ts_css], rte_enabled
 ");

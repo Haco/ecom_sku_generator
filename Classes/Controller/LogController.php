@@ -55,6 +55,8 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
     public function newAction(\S3b0\EcomSkuGenerator\Domain\Model\Log $newLog = null)
     {
         $configuration = $this->feSession->get('config') ?: [];
+        $minOrderQuantity = $this->feSession->get('min-order-quantity') ?: 0;
+
         if (!sizeof($configuration)) {
             $this->forward('index', 'Generator');
         }
@@ -67,6 +69,7 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
 
         $this->view->assignMultiple([
             'newLog' => $newLog,
+            'minOrderQuantity' => $minOrderQuantity,
             'countryList' => $this->regionRepository->findByType(0),
             'stateList' => $this->stateRepository->findAll()
         ]);
@@ -90,7 +93,10 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
      */
     public function createAction(\S3b0\EcomSkuGenerator\Domain\Model\Log $newLog)
     {
-        /** EMail stuff */
+        /*
+            Creates new log record based on configuration
+            If configuration is found in session
+         */
         $configuration = $this->feSession->get('config') ?: [];
         if (sizeof($configuration)) {
             $this->addConfigurationToLog($newLog, $configuration);
@@ -99,6 +105,9 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
         }
         $this->createRecord($newLog);
 
+        /*
+            Sends confirmation email to requesting user and to sales persons
+         */
         $noReply = null;
         $configurations = $this->configurationRepository->findByConfigurationArray($configuration);
         $data = $this->getSku($configurations, $configuration);
@@ -156,7 +165,6 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
             ->send();
 
         \S3b0\EcomSkuGenerator\Session\ManageConfiguration::resetConfiguration($this);
-
         $this->redirect('confirmation');
     }
 

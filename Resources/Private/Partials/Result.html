@@ -11,6 +11,10 @@
 <div class="text-center text-uppercase">
     <a href="javascript:window.print()" title="Print your result"><span class="fa fa-print fa-fw"></span> Print result</a>
 </div>
+<br>
+<div id="generator-min-order-quantity">
+    {value.configurationCode.minOrderQuantityHtml -> f:format.raw()}
+</div>
 <div id="generator-summary-table">
 	{value.configurationCode.summaryTable -> f:format.html()}
 </div>

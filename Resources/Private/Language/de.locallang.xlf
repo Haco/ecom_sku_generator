@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2015-10-06T07:57:48Z" product-name="ecom_sku_generator">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-03-23T7:38:49Z" product-name="ecom_sku_generator">
 		<header/>
 		<body>
 			<trans-unit id="appendIncompatibleHint" xml:space="preserve">
-				<source>Incompatible with current configuration</source>
-			</trans-unit>
-			<trans-unit id="noArticleFound" xml:space="preserve">
+                <source>Incompatible with current configuration</source>
+                <target>Mit der aktueller Konfiguration nicht kompatibel</target>
+            </trans-unit>
+            <trans-unit id="noArticleFound" xml:space="preserve">
                 <source>No suitable article found for this configuration</source>
+                <target>Kein passender Artikel für diese Konfiguration gefunden.</target>
             </trans-unit>
             <trans-unit id="noArticleFoundCustomRequest" xml:space="preserve">
                 <source>No suitable article available with this selection. An individual inquiry is possible.</source>
+                <target>Für diese Auswahl ist aktuell kein Artikel verfügbar. Eine individuelle Anfrage ist möglich.</target>
             </trans-unit>
             <trans-unit id="individualInquiry" xml:space="preserve">
                 <source>Individual Inquiry</source>
+                 <target>Individuelle Anfrage</target>
             </trans-unit>
 			<trans-unit id="minOrderQuantity" xml:space="preserve">
                 <source>Minimum Order Quantity</source>
+                <target>Mindestbestellmenge</target>
             </trans-unit>
 		</body>
 	</file>
