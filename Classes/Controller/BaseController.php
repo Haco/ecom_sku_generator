@@ -255,10 +255,14 @@ class BaseController extends \Ecom\EcomToolbox\Controller\ActionController
                 foreach ($partGroupParts as $uid) {
                     /** @var \S3b0\EcomSkuGenerator\Domain\Model\Part $part */
                     $part = $this->partRepository->findByUid($uid);
-                    $part->setActive(true);
-                    if ($part->isLiableToPayCosts()) {
-                        $part->setCurrency($this->currency);
-                        $this->contentObject->sumUpConfigurationPrice($part->getNoCurrencyPricing());
+                    if ($part instanceof \S3b0\EcomSkuGenerator\Domain\Model\Part) {
+                        $part->setActive(true);
+                        if ($part->isLiableToPayCosts()) {
+                            $part->setCurrency($this->currency);
+                            $this->contentObject->sumUpConfigurationPrice($part->getNoCurrencyPricing());
+                        }
+                    } else {
+                        $this->redirect('reset');
                     }
                 }
             }
