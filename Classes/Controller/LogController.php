@@ -137,6 +137,7 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
          */
         $mailToSender->setFrom($noReply ?: $sender)
             ->setTo([$newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}"])
+            ->setSender('noreply@ecom-ex.com', 'ecom instruments')
             ->setSubject($this->settings['mail']['senderSubject'] ?: LocalizationUtility::translate('mail.toSender.subject', 'ecom_config_code_generator', [$this->contentObject->getHeader()]))
             ->setBody($this->getStandAloneTemplate('Email/ToSender', [
                 'title' => $data['title'],
@@ -155,6 +156,7 @@ class LogController extends \S3b0\EcomSkuGenerator\Controller\GeneratorControlle
         $mailToReceiver->setFrom([$newLog->getEmail() => "{$newLog->getFirstName()} {$newLog->getLastName()}"])
             ->setCc($carbonCopyReceivers)
             ->setTo($sender)
+            ->setSender('noreply@ecom-ex.com', 'ecom instruments')
             ->setSubject($this->settings['mail']['receiverSubject'] ?: LocalizationUtility::translate('mail.toReceiver.subject', 'ecom_config_code_generator', [$this->contentObject->getHeader()]))
             ->setBody($this->getStandAloneTemplate('Email/ToReceiver', [
                 'title' => $data['title'],
